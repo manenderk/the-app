@@ -11,13 +11,15 @@ const organizationSchema = mongoose.Schema({
   logo: {
     type: String,
   },
+  active: {
+    type: Boolean,
+    default: false
+  },
   created: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
   modified: {
-    type: Date,
-    default: Date.now
+    type: Date
   }
 });
 

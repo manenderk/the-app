@@ -4,7 +4,7 @@ const router = express.Router();
 const Role = require('../models/role.schema');
 
 //GET ALL ROLES
-router.get('/', (req, res, next) => {
+router.get('', (req, res, next) => {
   Role.find().then(documents => {
     res.status(201).json({
       status: 'success',
@@ -42,7 +42,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 //ADD ROLE
-router.post('/', (req, res, next) => {
+router.post('', (req, res, next) => {
   const role = new Role({
     name: req.body.name
   });
