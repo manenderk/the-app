@@ -1,0 +1,15 @@
+.navigation-icon{
+  padding: 0 20px;
+}
+
+.navigation-spacer{
+  flex: 1 1 auto;
+}
+
+mat-icon:focus{
+  outline: none;
+}
+
+mat-toolbar{
+  border-bottom: 2px solid white;
+}
