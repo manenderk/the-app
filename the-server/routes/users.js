@@ -1,11 +1,15 @@
 const express = require('express');
-const router = express.Router();
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/user.schema');
 
+const checkAuth = require('../middleware/check-auth');
+
+const router = express.Router();
+
 //GET ALL USERS
-router.get('', (req, res, next) => {
+router.get('', checkAuth, (req, res, next) => {
   User.find().then(documents => {
     res.status(201).json({
       status: 'success',
@@ -165,7 +169,48 @@ router.put('/update-password/:id', (req, res, next) => {
       })
     })
   });
+});
 
+//login user
+router.post('/login', (req, res, next) => {
+  let fetchedUser;
+
+  User.findOne({
+    email: req.body.email
+  }).then(user => {
+    if(!user) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'user not found with this email'
+      });
+    }
+    fetchedUser = user;
+    return bcrypt.compare(req.body.password, user.password);
+  }).then(result => {
+    if(!result) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'authentication failed'
+      });
+    }
+    const token = jwt.sign({
+      userId: fetchedUser._id,
+      email: fetchedUser.email
+    }, 'this_is_my_server_secret_key_which_should_be_hidden', {
+      expiresIn: '1h'
+    });
+    return res.status(200).json({
+      status: 'success',
+      token: token,
+      expiresIn: 3600
+    })
+  }).catch(err => {
+    console.log(err);
+    return res.status(501).json({
+      status: 'error',
+      message: err
+    })
+  })
 });
 
 module.exports = router;
