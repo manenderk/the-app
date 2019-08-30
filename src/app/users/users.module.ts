@@ -7,9 +7,10 @@ import { RouterModule } from '@angular/router';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
-  declarations: [ListUsersComponent, RegisterUserComponent, UserDetailsComponent],
+  declarations: [ListUsersComponent, RegisterUserComponent, UserDetailsComponent, EditUserComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -22,7 +23,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
   exports: [
     ListUsersComponent,
     RegisterUserComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    EditUserComponent
   ]
 })
 export class UsersModule { }

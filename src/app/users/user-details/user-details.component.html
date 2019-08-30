@@ -21,11 +21,14 @@
       </tr>
       <tr>
         <td>Modified</td><td>{{user.modified | date: 'dd MMM, yyyy hh:mm:ss'}}</td>
-
       </tr>
       <tr>
         <td>First Name</td><td>{{user.first_name}}</td>
       </tr>
     </table>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [routerLink]="['/edit-user', user.id]" routerLinkActive="router-link-active" >Edit</button>
+    <button mat-raised-button color="primary" (click)="deleteUser(user.id)">Delete</button>
+  </mat-card-actions>
 </mat-card>

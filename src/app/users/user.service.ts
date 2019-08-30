@@ -53,4 +53,8 @@ export class UserService {
     };
     return this.httpClient.post<{status: string, user: any}>(environment.serverAddress + 'api/user', postData);
   }
+
+  deleteUser(id: string) {
+    return this.httpClient.delete<{status: string, message: string}>  (environment.serverAddress + 'api/user/' + id);
+  }
 }

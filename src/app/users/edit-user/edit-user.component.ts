@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
 import { User } from '../user.model';
-import { UserService } from '../user.service';
-import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.css']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.css']
 })
-export class UserDetailsComponent implements OnInit {
+export class EditUserComponent implements OnInit {
 
   public user: User;
-  constructor(public route: ActivatedRoute, public router: Router, public userService: UserService) { }
+
+  constructor(public userService: UserService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -35,7 +35,6 @@ export class UserDetailsComponent implements OnInit {
               created: response.user.created,
               modified: response.user.modified
             };
-
           }
         });
       } else {
@@ -44,16 +43,4 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  deleteUser(id: string) {
-    this.userService.deleteUser(id).subscribe(response => {
-      if (response.status === 'success') {
-        Swal.fire(
-          'Success',
-          'User is deleted',
-          'success'
-        );
-        this.router.navigate(['/users']);
-      }
-    });
-  }
 }
