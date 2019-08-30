@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,15 @@ export class UserService {
     /* return this.httpClient.get<{ status: string; users: any }>(
       environment.serverAddress + 'api/user/'
     ); */
+  }
+
+  registerUser(first_name: string, last_name: string, email: string, password: string){
+    const postData = {
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      password: password
+    };
+    return this.httpClient.post<{status: string, user: any}>(environment.serverAddress + 'api/user', postData);
   }
 }

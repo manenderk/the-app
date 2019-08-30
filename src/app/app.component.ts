@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'the-app';
-  isLoading = true;
-
+  isLoading = false;
 }

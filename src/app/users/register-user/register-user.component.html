@@ -1,0 +1,23 @@
+<form class="register-user-form" [formGroup]="registrationForm" (submit)="registerUser()">
+  <mat-form-field >
+    <input type="text" matInput placeholder="First name" formControlName="first_name">
+    <mat-error *ngIf="registrationForm.get('first_name').invalid">Please enter your first name</mat-error>
+  </mat-form-field>
+  <mat-form-field >
+    <input type="text" matInput placeholder="Last name" formControlName="last_name">
+    <mat-error *ngIf="registrationForm.get('last_name').invalid">Please enter your last name</mat-error>
+  </mat-form-field>
+  <mat-form-field >
+    <input type="email" matInput placeholder="Email" formControlName="email">
+    <mat-error *ngIf="registrationForm.get('email').invalid">Please enter valid email address</mat-error>
+  </mat-form-field>
+  <mat-form-field >
+    <input type="password" matInput placeholder="Password" formControlName="password">
+    <mat-error *ngIf="registrationForm.get('password').invalid">Please enter your password</mat-error>
+  </mat-form-field>
+  <mat-form-field >
+    <input type="password" matInput placeholder="Enter password Again" formControlName="password2">
+    <mat-error *ngIf="registrationForm.get('password2').invalid">Please enter same password as you entered above</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Register</button>
+</form>
