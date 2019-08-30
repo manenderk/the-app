@@ -36,16 +36,19 @@ export class UserService {
           });
       })
     );
-    /* return this.httpClient.get<{ status: string; users: any }>(
-      environment.serverAddress + 'api/user/'
-    ); */
   }
 
-  registerUser(first_name: string, last_name: string, email: string, password: string){
+  getUser(id: string) {
+    return this.httpClient.get<{status: string, user: any}>(environment.serverAddress + 'api/user/' + id);
+  }
+
+  registerUser(firstName: string, lastName: string, email: string, password: string) {
     const postData = {
-      first_name: first_name,
-      last_name: last_name,
+      first_name: firstName,
+      last_name: lastName,
+      // tslint:disable-next-line: object-literal-shorthand
       email: email,
+      // tslint:disable-next-line: object-literal-shorthand
       password: password
     };
     return this.httpClient.post<{status: string, user: any}>(environment.serverAddress + 'api/user', postData);

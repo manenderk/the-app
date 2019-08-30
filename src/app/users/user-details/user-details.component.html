@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-content>
+    <table>
+      <tr>
+        <td>First Name</td><td>{{user.first_name}}</td>
+      </tr>
+      <tr>
+        <td>Middle Name</td><td>{{user.middle_name}}</td>
+      </tr>
+      <tr>
+        <td>Last Name</td><td>{{user.last_name}}</td>
+      </tr>
+      <tr>
+        <td>Email</td><td>{{user.email}}</td>
+      </tr>
+      <tr>
+        <td>Active</td><td>{{user.active ? 'Yes' : 'No'}}</td>
+      </tr>
+      <tr>
+        <td>Created</td><td>{{user.created | date: 'dd MMM, yyyy hh:mm:ss'}}</td>
+      </tr>
+      <tr>
+        <td>Modified</td><td>{{user.modified | date: 'dd MMM, yyyy hh:mm:ss'}}</td>
+
+      </tr>
+      <tr>
+        <td>First Name</td><td>{{user.first_name}}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

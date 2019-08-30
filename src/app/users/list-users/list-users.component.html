@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="users">
    <ng-container matColumnDef="email">
      <th mat-header-cell *matHeaderCellDef> Email </th>
-     <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+     <td mat-cell *matCellDef="let element" >{{element.email}} </td>
    </ng-container>
    <ng-container matColumnDef="first_name">
      <th mat-header-cell *matHeaderCellDef> First Name </th>
@@ -12,5 +12,5 @@
      <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
    </ng-container>
    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" [routerLink]="['/user-details', row.id]" routerLinkActive="router-link-active" ></tr>
 </table>
