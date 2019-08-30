@@ -11,5 +11,5 @@ mat-icon:focus{
 }
 
 mat-toolbar{
-  border-bottom: 2px solid white;
+  margin-bottom: 1rem;
 }

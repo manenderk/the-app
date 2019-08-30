@@ -1,12 +1,18 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <app-header></app-header>
-  <div class="container-fluid">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3 mat-background-primary">
-      <app-sidebar></app-sidebar>
+    <div class="col-sm-2" >
+      <mat-card>
+        <app-sidebar></app-sidebar>
+      </mat-card>
+
     </div>
-    <div class="col-sm-8">
-      <router-outlet></router-outlet>
+    <div class="col-sm-10">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <mat-card class="page-container">
+        <router-outlet></router-outlet>
+        </mat-card>
     </div>
   </div>
 </div>
+<app-footer></app-footer>

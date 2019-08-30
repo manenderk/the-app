@@ -1,3 +1,7 @@
 /* .dashboard-sidebar {
   background-color: ;
 } */
+
+.page-container{
+  min-height: 80vh;
+}

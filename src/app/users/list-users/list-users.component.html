@@ -1,0 +1,55 @@
+<h1>Users</h1>
+<mat-grid-list cols="8">
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    First Name
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    Middle Name
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    Last Name
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    Email
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    Organization
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    Employee ID
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    Active
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    Actions
+  </mat-grid-tile>
+
+</mat-grid-list>
+<mat-grid-list cols="8" *ngFor="let user of users">
+  <mat-grid-tile  [colspan]="1" [rowspan]="1">
+    {{user.first_name}}
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    {{user.middle_name}}
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    {{user.last_name}}
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    {{user.email}}
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    {{user.organization_id}}
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    {{user.employee_id}}
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+    {{user.active}}
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1">
+
+  </mat-grid-tile>
+
+</mat-grid-list>
