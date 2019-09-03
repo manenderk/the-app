@@ -1,1 +1,12 @@
-<p>add-organization works!</p>
+<form class="register-user-form" [formGroup]="addOrgForm" (submit)="addOrganization()">
+  <mat-form-field>
+    <input type="text" matInput placeholder="Name" formControlName="name">
+    <mat-error *ngIf="addOrgForm.get('name').invalid">Please enter your first name</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Description" formControlName="description" rows="10"></textarea>
+    <mat-error *ngIf="addOrgForm.get('description').invalid">Please enter your last name</mat-error>
+  </mat-form-field>
+  <mat-checkbox formControlName="active">Active</mat-checkbox>
+  <button mat-raised-button color="primary" type="submit">Register</button>
+</form>

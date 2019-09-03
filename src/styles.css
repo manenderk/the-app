@@ -29,3 +29,13 @@ body {
 .page-header-action-buttons{
   text-align: right;
 }
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-checkbox{
+  display: block;
+  padding-bottom: 1.25em;
+}
+

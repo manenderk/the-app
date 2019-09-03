@@ -7,6 +7,7 @@ import { EditOrganizationComponent } from './edit-organization/edit-organization
 import { OrganizationDetailComponent } from './organization-detail/organization-detail.component';
 import { MaterialModule } from '../material.module';
 import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ReactiveFormsModule
   ],
   providers: [
     OrganizationService

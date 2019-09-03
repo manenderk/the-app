@@ -28,7 +28,6 @@ export class OrganizationDetailComponent implements OnInit {
         });
       }
     });
-
   }
 
   deleteOrganization(id: string) {
