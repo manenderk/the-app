@@ -1,16 +1,16 @@
 <app-header></app-header>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4 col-md-3 col-lg-2">
+    <div class="col-sm-4 col-md-3 col-lg-2" *ngIf="isLoggedIn">
       <mat-card class="sidebar-card">
         <app-sidebar></app-sidebar>
       </mat-card>
 
     </div>
-    <div class="col-sm-8 col-md-9 col-lg-10">
+    <div [class]="isLoggedIn ? 'col-sm-8 col-md-9 col-lg-10 page-container' : 'col-sm-12'">
         <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-        <mat-card class="page-container">
-        <router-outlet></router-outlet>
+        <mat-card class="page-container-card">
+          <router-outlet></router-outlet>
         </mat-card>
     </div>
   </div>

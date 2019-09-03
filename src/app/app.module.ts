@@ -11,6 +11,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { HttpClientModule } from '@angular/common/http';
 import { OrganizationsModule } from './organizations/organizations.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { OrganizationsModule } from './organizations/organizations.module';
     SharedModule,
     LayoutModule,
     UsersModule,
-    OrganizationsModule
+    OrganizationsModule,
+    AuthModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]
