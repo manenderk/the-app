@@ -1,1 +1,29 @@
-<p>list-organization works!</p>
+<div class="page-header-action-buttons">
+  <button mat-raised-button color="primary" [routerLink]="['/add-organization']"
+      routerLinkActive="router-link-active">Create Organization</button>
+</div>
+<table mat-table [dataSource]="organizations">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element">{{element.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="logo">
+    <th mat-header-cell *matHeaderCellDef> Logo </th>
+    <td mat-cell *matCellDef="let element"> <img class="organization-logo" [src]="element.logo"> </td>
+  </ng-container>
+  <ng-container matColumnDef="active">
+    <th mat-header-cell *matHeaderCellDef> Active </th>
+    <td mat-cell *matCellDef="let element"> {{element.active ? 'Yes' : 'No'}} </td>
+  </ng-container>
+  <ng-container matColumnDef="created">
+    <th mat-header-cell *matHeaderCellDef> Created </th>
+    <td mat-cell *matCellDef="let element"> {{element.created | date}} </td>
+  </ng-container>
+  <ng-container matColumnDef="modified">
+    <th mat-header-cell *matHeaderCellDef> Modified </th>
+    <td mat-cell *matCellDef="let element"> {{element.modified | date}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" [routerLink]="['/organization-details', row.id]"
+    routerLinkActive="router-link-active"></tr>
+</table>

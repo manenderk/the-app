@@ -1,1 +1,35 @@
-<p>organization-detail works!</p>
+<mat-card>
+  <mat-card-content>
+    <table>
+      <tr>
+        <td>Name</td>
+        <td>{{organization.name}}</td>
+      </tr>
+      <tr>
+        <td>Logo</td>
+        <td><img [src]="organization.logo" class="organization-logo"></td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td>{{organization.description}}</td>
+      </tr>
+      <tr>
+        <td>Active</td>
+        <td>{{organization.active ? 'Yes' : 'No'}}</td>
+      </tr>
+      <tr>
+        <td>Created</td>
+        <td>{{organization.created | date: 'dd MMM, yyyy hh:mm:ss'}}</td>
+      </tr>
+      <tr>
+        <td>Modified</td>
+        <td>{{organization.modified | date: 'dd MMM, yyyy hh:mm:ss'}}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [routerLink]="['/edit-user', organization.id]"
+      routerLinkActive="router-link-active">Edit</button>
+    <button mat-raised-button color="primary" (click)="deleteOrganization(organization.id)">Delete</button>
+  </mat-card-actions>
+</mat-card>

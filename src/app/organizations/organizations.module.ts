@@ -6,14 +6,22 @@ import { AddOrganizationComponent } from './add-organization/add-organization.co
 import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
 import { OrganizationDetailComponent } from './organization-detail/organization-detail.component';
 import { MaterialModule } from '../material.module';
+import { RouterModule, Routes } from '@angular/router';
 
+
+const routes: Routes = [
+  { path: 'organizations', component: ListOrganizationComponent },
+  { path: 'organization-details/:id', component: OrganizationDetailComponent },
+  { path: 'add-organization', component: AddOrganizationComponent }
+];
 
 
 @NgModule({
   declarations: [ListOrganizationComponent, AddOrganizationComponent, EditOrganizationComponent, OrganizationDetailComponent],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule.forChild(routes)
   ],
   providers: [
     OrganizationService

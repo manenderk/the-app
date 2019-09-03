@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { OrganizationService } from '../organization.service';
+import { Organization } from '../organization.model';
 
 @Component({
   selector: 'app-list-organization',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListOrganizationComponent implements OnInit {
 
-  constructor() { }
+  public organizations: Organization[];
+  public columnsToDisplay: string[] = ['name', 'logo', 'active', 'created', 'modified'];
+  constructor(public organizationService: OrganizationService) {}
 
   ngOnInit() {
+    this.organizationService.getOrganizations().subscribe(response => {
+      this.organizations = response;
+    });
   }
-
 }
