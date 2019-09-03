@@ -2,7 +2,9 @@
   <mat-toolbar-row>
     <span>The App</span>
     <span class="navigation-spacer"></span>
-    <span [routerLink]="['/register']" routerLinkActive="router-link-active" >Register</span>
-    <mat-icon class="navigation-icon" aria-hidden="false">delete</mat-icon>
+    <span [routerLink]="['/login']" routerLinkActive="router-link-active" class="navigation-item" *ngIf="!isAuthenticated">Login</span>
+    <span [routerLink]="['/register']" routerLinkActive="router-link-active" class="navigation-item" *ngIf="!isAuthenticated">Register</span>
+    <span (click)="logout()" class="navigation-item" *ngIf="isAuthenticated">Logout</span>
+    <mat-icon class="navigation-item" aria-hidden="false">delete</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>

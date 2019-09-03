@@ -8,16 +8,18 @@ import { RegisterUserComponent } from './register-user/register-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { LoginUserComponent } from './login-user/login-user.component';
 
 const routes: Routes = [
   { path: 'users', component: ListUsersComponent },
   { path: 'register', component: RegisterUserComponent },
+  { path: 'login', component: LoginUserComponent },
   { path: 'user-details/:id', component: UserDetailsComponent },
   { path: 'edit-user/:id', component: EditUserComponent }
 ];
 
 @NgModule({
-  declarations: [ListUsersComponent, RegisterUserComponent, UserDetailsComponent, EditUserComponent],
+  declarations: [ListUsersComponent, RegisterUserComponent, UserDetailsComponent, EditUserComponent, LoginUserComponent],
   imports: [
     CommonModule,
     MaterialModule,

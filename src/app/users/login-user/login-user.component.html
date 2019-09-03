@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-8 col-lg-9">
+    <div class="page-background"></div>
+  </div>
+  <div class="col-md-4 col-lg-3">
+    <form [formGroup]="loginForm" (submit)="loginUser()">
+      <mat-form-field >
+        <input type="text" matInput placeholder="Email" formControlName="email">
+        <mat-error *ngIf="loginForm.get('email').invalid">Please enter valid email</mat-error>
+      </mat-form-field>
+      <mat-form-field >
+        <input type="password" matInput placeholder="Password" formControlName="password">
+        <mat-error *ngIf="loginForm.get('password').invalid">Please enter password</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </form>
+    <h3 *ngIf="loginFailed" class="login-error-message">
+      Invalid Credentials
+    </h3 >
+  </div>
+</div>

@@ -56,4 +56,22 @@ export class UserService {
   deleteUser(id: string) {
     return this.httpClient.delete<{status: string, message: string}>  (environment.serverAddress + 'api/user/' + id);
   }
+
+  loginUser(email: string, password: string) {
+    const postData = {
+      email,
+      password
+    };
+    return this.httpClient.post<{status: string, token: string, expiresIn: number}>(
+      environment.serverAddress + 'api/user/login', postData
+    ).pipe(
+      map(response => {
+        return {
+          status: response.status,
+          token: response.token,
+          expiresIn: response.expiresIn
+        };
+      }
+    ));
+  }
 }

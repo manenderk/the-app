@@ -1,0 +1,10 @@
+.page-background {
+  background-image: url("../../../assets/images/login-background.jpg");
+  background-size: cover;
+  background-position: center center;
+  height: 75vh;
+}
+
+.login-error-message{
+  color: red;
+}
