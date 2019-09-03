@@ -10,6 +10,7 @@ import { LayoutModule } from './layout/layout.module';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { HttpClientModule } from '@angular/common/http';
+import { OrganizationsModule } from './organizations/organizations.module';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     SharedModule,
     LayoutModule,
-    UsersModule
+    UsersModule,
+    OrganizationsModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]
