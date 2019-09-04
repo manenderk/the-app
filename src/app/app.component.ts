@@ -16,6 +16,7 @@ export class AppComponent {
   private loadingStateSub: Subscription;
 
   constructor(private authService: AuthService, private appService: AppService) {
+    this.isAuthenticated = this.authService.isLoggedIn();
     this.authStateSub = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });

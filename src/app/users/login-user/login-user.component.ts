@@ -21,10 +21,11 @@ export class LoginUserComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.authService.isLoggedIn());
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/users']);
     }
+
+
     this.loginForm = new FormGroup({
       email: new FormControl(null, {
         validators: [Validators.required, Validators.email]
@@ -46,7 +47,7 @@ export class LoginUserComponent implements OnInit {
       .subscribe(
         response => {
           if (response.token) {
-            this.authService.setToken(response.token);
+            this.authService.setAuthData(response.token, response.expiresIn);
             this.appService.setLoader(false);
             this.router.navigate(['/users']);
           }

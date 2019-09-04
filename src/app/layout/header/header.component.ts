@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.isAuthenticated = this.authService.isLoggedIn();
     this.authServiceSub = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.deleteToken();
+    this.authService.clearAuthData();
     this.router.navigate(['/login']);
   }
 
