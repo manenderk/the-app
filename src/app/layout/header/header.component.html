@@ -5,6 +5,5 @@
     <span [routerLink]="['/login']" routerLinkActive="router-link-active" class="navigation-item" *ngIf="!isAuthenticated">Login</span>
     <span [routerLink]="['/register']" routerLinkActive="router-link-active" class="navigation-item" *ngIf="!isAuthenticated">Register</span>
     <span (click)="logout()" class="navigation-item" *ngIf="isAuthenticated">Logout</span>
-    <mat-icon class="navigation-item" aria-hidden="false">delete</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>
