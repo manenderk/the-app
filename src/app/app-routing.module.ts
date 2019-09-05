@@ -6,7 +6,8 @@ import { LoginUserComponent } from './users/login-user/login-user.component';
 const routes: Routes = [
   {path: '', component: LoginUserComponent},
   {path: '', loadChildren: './users/users.module#UsersModule'},
-  {path: '', loadChildren: './organizations/organizations.module#OrganizationsModule'}
+  {path: '', loadChildren: './organizations/organizations.module#OrganizationsModule'},
+  {path: '', loadChildren: './roles/roles.module#RolesModule'}
 ];
 
 @NgModule({

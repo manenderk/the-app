@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { HttpClientModule } from '@angular/common/http';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { AuthModule } from './auth/auth.module';
+import { RolesModule } from './roles/roles.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { AuthModule } from './auth/auth.module';
     LayoutModule,
     UsersModule,
     OrganizationsModule,
-    AuthModule
+    AuthModule,
+    RolesModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]
