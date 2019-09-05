@@ -1,1 +1,7 @@
-<p>add-role works!</p>
+<form [formGroup]="addRoleForm" (submit)="addRole()">
+  <mat-form-field>
+    <input type="text" matInput placeholder="Role Name" formControlName="name">
+    <mat-error *ngIf="addRoleForm.get('name').invalid">Please enter Role Name</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Add</button>
+</form>

@@ -1,1 +1,7 @@
-<p>edit-role works!</p>
+<form [formGroup]="editRoleForm" (submit)="updateRole()">
+  <mat-form-field>
+    <input type="text" matInput placeholder="Role Name" formControlName="name">
+    <mat-error *ngIf="editRoleForm.get('name').invalid">Please enter Role Name</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Update</button>
+</form>
