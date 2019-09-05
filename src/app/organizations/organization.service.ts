@@ -63,6 +63,29 @@ export class OrganizationService {
     );
   }
 
+  updateOrganization(id: string, name: string, description: string, logo: File | string, active: boolean) {
+    let postData;
+    if (typeof logo === 'string') {
+      postData = {
+        name,
+        description,
+        logo,
+        active
+      };
+    } else {
+      postData = new FormData();
+      postData.append('name', name);
+      postData.append('description', description);
+      postData.append('logo', logo);
+      postData.append('active', active);
+    }
+
+    return this.httpClient.put<{status: string, message: string}>(
+      environment.serverAddress + 'api/organization/' + id,
+      postData
+    );
+  }
+
   deleteOrganization(id: string) {
     return this.httpClient.delete<{status: string, message: string}>(
       environment.serverAddress + 'api/organization/' + id

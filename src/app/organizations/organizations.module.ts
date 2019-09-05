@@ -26,6 +26,11 @@ const routes: Routes = [
     path: 'add-organization',
     component: AddOrganizationComponent,
     canActivate: [AuthGaurd]
+  },
+  {
+    path: 'edit-organization/:id',
+    component: EditOrganizationComponent,
+    canActivate: [AuthGaurd]
   }
 ];
 

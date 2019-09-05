@@ -16,7 +16,6 @@ const imageStorage = multer.diskStorage({
     cb(error, 'the-server/images');
   },
   filename: (req, file, cb) => {
-    console.log(file);
     const name = file.originalname.toLowerCase().split(' ').join('-');
     const ext = IMAGE_MIME_TYPE_MAP[file.mimetype];
     cb(null, name + '-' + Date.now() + '.' + ext);

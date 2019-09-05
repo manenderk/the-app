@@ -1,6 +1,9 @@
 const express = require('express');
 const multer = require('multer');
 const imageStorage = require('../util/file-upload');
+const fs = require('fs');
+var path = require('path');
+
 
 const router = express.Router();
 
@@ -84,7 +87,7 @@ router.put('/:id', multer({
     description: req.body.description,
     logo: logo,
     active: req.body.active,
-    created: new Date()
+    modified: new Date()
   });
   Organization.updateOne({
     _id: req.params.id

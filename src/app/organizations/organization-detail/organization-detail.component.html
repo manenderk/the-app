@@ -28,7 +28,7 @@
     </table>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" [routerLink]="['/edit-user', organization.id]"
+    <button mat-raised-button color="primary" [routerLink]="['/edit-organization', organization.id]"
       routerLinkActive="router-link-active">Edit</button>
     <button mat-raised-button color="primary" (click)="deleteOrganization(organization.id)">Delete</button>
   </mat-card-actions>

@@ -1,1 +1,19 @@
-<p>edit-organization works!</p>
+<form class="register-user-form" [formGroup]="editOrgForm" (submit)="updateOrg()">
+  <mat-form-field>
+    <input type="text" matInput placeholder="Name" formControlName="name">
+    <mat-error *ngIf="editOrgForm.get('name').invalid">Please enter your first name</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Description" formControlName="description" rows="10"></textarea>
+    <mat-error *ngIf="editOrgForm.get('description').invalid">Please enter your last name</mat-error>
+  </mat-form-field>
+  <div class="mb-1-25rem">
+    <input type="file" class="hidden-element" accept="jpeg, jpg, png" #logoPicker (change)="previewLogo($event)">
+    <button mat-raised-button type="button" color="primary" (click)="logoPicker.click()">Upload Logo</button>
+  </div>
+  <div class="image-preview" *ngIf="logoPreview">
+    <img [src]="logoPreview" *ngIf="logoPreview">
+  </div>
+  <mat-checkbox formControlName="active">Active</mat-checkbox>
+  <button mat-raised-button color="primary" type="submit">Update</button>
+</form>
