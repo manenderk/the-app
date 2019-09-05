@@ -34,7 +34,7 @@ export class AuthService {
     if (token && expirationDate) {
       const now = new Date();
       const expiration = new Date(expirationDate);
-      console.log('SESSION EXPIRES IN: ' + (expiration.getTime() - now.getTime()));
+      console.log('SESSION Will EXPIRES IN ' + (expiration.getTime() - now.getTime()) / 1000 + ' seconds');
       if (expiration.getTime() - now.getTime() > 0 ) {
         return true;
       } else {
