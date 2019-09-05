@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrganizationService } from '../organization.service';
+import { previewImage } from '../../utils/preview-image';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-organization',
@@ -8,10 +11,13 @@ import { OrganizationService } from '../organization.service';
   styleUrls: ['./add-organization.component.css']
 })
 export class AddOrganizationComponent implements OnInit {
-
   public addOrgForm: FormGroup;
+  public logoPreview: string;
 
-  constructor(public orgService: OrganizationService ) { }
+  constructor(
+    private orgService: OrganizationService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.addOrgForm = new FormGroup({
@@ -24,12 +30,51 @@ export class AddOrganizationComponent implements OnInit {
       active: new FormControl(null, {
         validators: [Validators.required]
       }),
-      logo: new FormControl(null)
+      logo: new FormControl()
+    });
+  }
+
+  previewLogo(event: Event) {
+    previewImage(event).then((fileObj: { file: any; imagePreview: string }) => {
+      this.logoPreview = fileObj.imagePreview;
+      this.addOrgForm.patchValue({
+        logo: fileObj.file
+      });
+      this.addOrgForm.get('logo').updateValueAndValidity();
     });
   }
 
   addOrganization() {
-
+    if (this.addOrgForm.invalid) {
+      return;
+    }
+    this.orgService
+      .addOrganization(
+        this.addOrgForm.value.name,
+        this.addOrgForm.value.description,
+        this.addOrgForm.value.logo,
+        this.addOrgForm.value.active
+      )
+      .subscribe(
+        response => {
+          if (response.status === 'success') {
+            Swal.fire(
+              'Success',
+              'Organization is added successfully',
+              'success'
+            );
+            this.router.navigate(['/organizations']);
+          } else {
+            Swal.fire('Error', 'Organization could not be saved', 'error');
+          }
+        },
+        error => {
+          Swal.fire(
+            'Error',
+            'Organization could not be saved',
+            'error'
+          );
+        }
+      );
   }
-
 }

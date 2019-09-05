@@ -7,6 +7,13 @@
     <textarea matInput placeholder="Description" formControlName="description" rows="10"></textarea>
     <mat-error *ngIf="addOrgForm.get('description').invalid">Please enter your last name</mat-error>
   </mat-form-field>
+  <div class="mb-1-25rem">
+    <input type="file" class="hidden-element" accept="jpeg, jpg, png" #logoPicker (change)="previewLogo($event)">
+    <button mat-raised-button type="button" color="primary" (click)="logoPicker.click()">Upload Logo</button>
+  </div>
+  <div class="image-preview" *ngIf="logoPreview">
+    <img [src]="logoPreview" *ngIf="logoPreview">
+  </div>
   <mat-checkbox formControlName="active">Active</mat-checkbox>
   <button mat-raised-button color="primary" type="submit">Register</button>
 </form>

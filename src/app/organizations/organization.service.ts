@@ -50,6 +50,19 @@ export class OrganizationService {
     );
   }
 
+  addOrganization(name: string, description: string, logo: File, active: boolean) {
+    const postData = new FormData();
+    postData.append('name', name);
+    postData.append('description', description);
+    postData.append('logo', logo);
+    postData.append('active', active.toString());
+
+    return this.httpClient.post<{status: string, organization: Organization}>(
+      environment.serverAddress + 'api/organization',
+      postData
+    );
+  }
+
   deleteOrganization(id: string) {
     return this.httpClient.delete<{status: string, message: string}>(
       environment.serverAddress + 'api/organization/' + id
