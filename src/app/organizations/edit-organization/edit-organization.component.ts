@@ -18,7 +18,7 @@ export class EditOrganizationComponent implements OnInit {
   editOrgForm: FormGroup;
   logoPreview: string;
 
-  constructor(private orgService: OrganizationService, private route: ActivatedRoute) { }
+  constructor(private orgService: OrganizationService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.editOrgForm = new FormGroup({
@@ -72,9 +72,27 @@ export class EditOrganizationComponent implements OnInit {
       this.editOrgForm.value.description,
       this.editOrgForm.value.logo,
       this.editOrgForm.value.active
-    ).subscribe(response => {
-      console.log(response);
-    });
+    ).subscribe(
+      response => {
+        if (response.status === 'success') {
+          Swal.fire(
+            'Success',
+            'Organization is updated successfully',
+            'success'
+          );
+          this.router.navigate(['/organizations']);
+        } else {
+          Swal.fire('Error', 'Organization could not be saved', 'error');
+        }
+      },
+      error => {
+        Swal.fire(
+          'Error',
+          'Organization could not be saved',
+          'error'
+        );
+      }
+    );
   }
 
 }
