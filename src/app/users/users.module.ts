@@ -9,31 +9,49 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoginUserComponent } from './login-user/login-user.component';
+import { AuthGaurd } from '../auth/auth.gaurd';
 
 const routes: Routes = [
-  { path: 'users', component: ListUsersComponent },
-  { path: 'register', component: RegisterUserComponent },
-  { path: 'login', component: LoginUserComponent },
-  { path: 'user-details/:id', component: UserDetailsComponent },
-  { path: 'edit-user/:id', component: EditUserComponent }
+  {
+    path: 'users',
+    component: ListUsersComponent,
+    canActivate: [AuthGaurd]
+  },
+  {
+    path: 'user-details/:id',
+    component: UserDetailsComponent,
+    canActivate: [AuthGaurd]
+  },
+  {
+    path: 'edit-user/:id',
+    component: EditUserComponent,
+    canActivate: [AuthGaurd]
+  },
+  {
+    path: 'register',
+    component: RegisterUserComponent
+  },
+  {
+    path: 'login',
+    component: LoginUserComponent
+  }
 ];
 
 @NgModule({
-  declarations: [ListUsersComponent, RegisterUserComponent, UserDetailsComponent, EditUserComponent, LoginUserComponent],
+  declarations: [
+    ListUsersComponent,
+    RegisterUserComponent,
+    UserDetailsComponent,
+    EditUserComponent,
+    LoginUserComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  providers: [
-    UserService
-  ],
-  exports: [
-    ListUsersComponent,
-    RegisterUserComponent,
-    UserDetailsComponent,
-    EditUserComponent
-  ]
+  providers: [UserService, AuthGaurd],
+  exports: []
 })
-export class UsersModule { }
+export class UsersModule {}

@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { MustMatch } from '../../utils/must-match.validator';
 import { UserService } from '../user.service';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-user',
@@ -11,9 +13,19 @@ import Swal from 'sweetalert2';
 })
 export class RegisterUserComponent implements OnInit {
   public registrationForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/users']);
+    }
+
     this.registrationForm = this.formBuilder.group({
       first_name: new FormControl(null, {
         validators: [Validators.required]

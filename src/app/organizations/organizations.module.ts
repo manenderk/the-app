@@ -8,12 +8,25 @@ import { OrganizationDetailComponent } from './organization-detail/organization-
 import { MaterialModule } from '../material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthGaurd } from '../auth/auth.gaurd';
 
 
 const routes: Routes = [
-  { path: 'organizations', component: ListOrganizationComponent },
-  { path: 'organization-details/:id', component: OrganizationDetailComponent },
-  { path: 'add-organization', component: AddOrganizationComponent }
+  {
+    path: 'organizations',
+    component: ListOrganizationComponent,
+    canActivate: [AuthGaurd]
+  },
+  {
+    path: 'organization-details/:id',
+    component: OrganizationDetailComponent,
+    canActivate: [AuthGaurd]
+  },
+  {
+    path: 'add-organization',
+    component: AddOrganizationComponent,
+    canActivate: [AuthGaurd]
+  }
 ];
 
 
