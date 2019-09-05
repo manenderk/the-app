@@ -36,13 +36,15 @@ export class AuthService {
       const expiration = new Date(expirationDate);
       console.log('SESSION Will EXPIRES IN ' + (expiration.getTime() - now.getTime()) / 1000 + ' seconds');
       if (expiration.getTime() - now.getTime() > 0 ) {
-        return true;
+        this.isAuthenticated = true;
       } else {
-        return false;
+        this.isAuthenticated = false;
       }
     } else {
-      return false;
+      this.isAuthenticated = false;
     }
+    this.authStateListener.next(this.isAuthenticated);
+    return this.isAuthenticated;
   }
 
   getAuthStatusListener() {
