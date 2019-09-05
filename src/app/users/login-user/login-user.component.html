@@ -14,8 +14,8 @@
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit">Login</button>
     </form>
-    <h3 *ngIf="loginFailed" class="login-error-message">
-      Invalid Credentials
+    <h3 *ngIf="loginFailed.status" class="login-error-message">
+      {{loginFailed.message}}
     </h3 >
   </div>
 </div>

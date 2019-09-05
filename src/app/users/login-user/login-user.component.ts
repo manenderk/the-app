@@ -12,7 +12,10 @@ import { AppService } from 'src/app/app.service';
 })
 export class LoginUserComponent implements OnInit {
   public loginForm: FormGroup;
-  public loginFailed = false;
+  public loginFailed = {
+    status: false,
+    message: ''
+  };
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -46,15 +49,24 @@ export class LoginUserComponent implements OnInit {
       .loginUser(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe(
         response => {
-          if (response.token) {
+          this.appService.setLoader(false);
+          console.log(response);
+          if (response.status === 'error') {
+            this.loginFailed = {
+              status: true,
+              message: response.message
+            };
+          } else if (response.token) {
             this.authService.setAuthData(response.token, response.expiresIn);
-            this.appService.setLoader(false);
             this.router.navigate(['/users']);
           }
         },
         error => {
           this.appService.setLoader(false);
-          this.loginFailed = true;
+          this.loginFailed = {
+            status: true,
+            message: 'Request error'
+          };
         }
       );
   }

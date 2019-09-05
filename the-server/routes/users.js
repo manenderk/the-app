@@ -176,13 +176,19 @@ router.post('/login', (req, res, next) => {
   let fetchedUser;
 
   User.findOne({
-    email: req.body.email
+    email: req.body.email,
   }).then(user => {
     if(!user) {
-      return res.status(401).json({
+      return res.status(200).json({
         status: 'error',
-        message: 'user not found with this email'
+        message: 'User not found with this email'
       });
+    }
+    if(user.active === false) {
+      return res.status(200).json({
+        status: 'error',
+        message: 'Your account is inactive'
+      })
     }
     fetchedUser = user;
     return bcrypt.compare(req.body.password, user.password);
@@ -190,7 +196,7 @@ router.post('/login', (req, res, next) => {
     if(!result) {
       return res.status(401).json({
         status: 'error',
-        message: 'authentication failed'
+        message: 'Authentication Failed'
       });
     }
     const token = jwt.sign({
