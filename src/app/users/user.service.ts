@@ -74,4 +74,33 @@ export class UserService {
       }
     ));
   }
+
+  updateUser(
+    id: string,
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    email: string,
+    employeeId: string,
+    organizationId: string,
+    roleId: string,
+    dob: Date,
+    active: boolean
+  ) {
+    const postData = {
+      first_name: firstName,
+      middle_name: middleName,
+      last_name: lastName,
+      email,
+      employee_id: employeeId,
+      organization_id: organizationId,
+      role_id: roleId,
+      dob,
+      active
+    };
+    return this.httpClient.put<{status: string, message: string}>(
+      environment.serverAddress + 'api/user/' + id,
+      postData
+    );
+  }
 }

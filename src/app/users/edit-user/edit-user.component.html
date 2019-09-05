@@ -1,1 +1,33 @@
-<p>edit-user works!</p>
+<form class="register-user-form" [formGroup]="editUserForm" (submit)="updateUser()">
+  <mat-form-field>
+    <input type="text" matInput placeholder="First name" formControlName="first_name">
+    <mat-error *ngIf="editUserForm.get('first_name').invalid">Please enter your first name</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Middle name" formControlName="middle_name">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Last name" formControlName="last_name">
+    <mat-error *ngIf="editUserForm.get('last_name').invalid">Please enter your last name</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="email" matInput placeholder="Email" formControlName="email">
+    <mat-error *ngIf="editUserForm.get('email').invalid">Please enter valid email address</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Employee ID" formControlName="employee_id">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="dobPicker" placeholder="DOB" formControlName="dob">
+    <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+    <mat-datepicker #dobPicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Organization" formControlName="organization_id">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Role" formControlName="role_id">
+  </mat-form-field>
+  <mat-checkbox formControlName="active">Active</mat-checkbox>
+  <button mat-raised-button color="primary" type="submit">Register</button>
+</form>
