@@ -28,9 +28,7 @@ export class EditOrganizationComponent implements OnInit {
       description: new FormControl(null, {
         validators: [Validators.required]
       }),
-      active: new FormControl(null, {
-        validators: [Validators.required]
-      }),
+      active: new FormControl(),
       logo: new FormControl()
     });
 

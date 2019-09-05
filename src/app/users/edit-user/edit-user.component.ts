@@ -4,6 +4,8 @@ import { ParamMap, ActivatedRoute, Router } from '@angular/router';
 import { User } from '../user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { OrganizationService } from 'src/app/organizations/organization.service';
+import { Organization } from 'src/app/organizations/organization.model';
 
 @Component({
   selector: 'app-edit-user',
@@ -14,9 +16,19 @@ export class EditUserComponent implements OnInit {
 
   public userId: string;
 
+  public organizationOptions: {
+    id: string,
+    name: string
+  }[];
+
   public editUserForm: FormGroup;
 
-  constructor(public userService: UserService, public route: ActivatedRoute, public router: Router) { }
+  constructor(
+    private userService: UserService,
+    private orgService: OrganizationService ,
+    public route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
 
@@ -59,6 +71,16 @@ export class EditUserComponent implements OnInit {
             });
           }
         });
+
+        this.orgService.getOrganizations(true).subscribe(response => {
+          this.organizationOptions = response.map( (org: Organization) => {
+            return {
+              id: org.id,
+              name: org.name
+            };
+          });
+        });
+
       } else {
         this.router.navigate(['/users']);
       }
@@ -79,7 +101,7 @@ export class EditUserComponent implements OnInit {
       this.editUserForm.value.organization_id,
       this.editUserForm.value.role_id,
       this.editUserForm.value.dob,
-      this.editUserForm.value.active
+      this.editUserForm.value.active === true ? true : false
     ).subscribe(
       response => {
         if (response.status === 'success') {

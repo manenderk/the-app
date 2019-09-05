@@ -12,6 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -42,6 +43,7 @@ export const APP_DATE_FORMATS = {
     MatNativeDateModule,
     MatProgressBarModule,
     MatRadioModule,
+    MatSelectModule,
     MatTableModule,
     MatToolbarModule
   ],
@@ -57,6 +59,7 @@ export const APP_DATE_FORMATS = {
     MatListModule,
     MatProgressBarModule,
     MatRadioModule,
+    MatSelectModule,
     MatTableModule,
     MatToolbarModule
   ],

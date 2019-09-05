@@ -12,9 +12,9 @@ export class OrganizationService {
 
   constructor(public httpClient: HttpClient) { }
 
-  getOrganizations() {
+  getOrganizations(activeOnly: boolean = false) {
     return this.httpClient.get<{status: string, organizations: any}>(
-      environment.serverAddress + 'api/organization'
+      environment.serverAddress + 'api/organization/?activeonly=' + activeOnly.toString()
     ).pipe(
       map(response => {
         return response.organizations.map(org => {

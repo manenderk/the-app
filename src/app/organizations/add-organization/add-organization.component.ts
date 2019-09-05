@@ -27,9 +27,7 @@ export class AddOrganizationComponent implements OnInit {
       description: new FormControl(null, {
         validators: [Validators.required]
       }),
-      active: new FormControl(null, {
-        validators: [Validators.required]
-      }),
+      active: new FormControl(),
       logo: new FormControl()
     });
   }
@@ -53,7 +51,7 @@ export class AddOrganizationComponent implements OnInit {
         this.addOrgForm.value.name,
         this.addOrgForm.value.description,
         this.addOrgForm.value.logo,
-        this.addOrgForm.value.active
+        this.addOrgForm.value.active === true ? true : false
       )
       .subscribe(
         response => {

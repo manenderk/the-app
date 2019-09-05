@@ -23,11 +23,17 @@
     <mat-datepicker #dobPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input type="text" matInput placeholder="Organization" formControlName="organization_id">
+    <mat-label>Organization</mat-label>
+    <mat-select>
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let org of organizationOptions" [value]="org.id">
+        {{org.name}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-form-field>
     <input type="text" matInput placeholder="Role" formControlName="role_id">
   </mat-form-field>
   <mat-checkbox formControlName="active">Active</mat-checkbox>
-  <button mat-raised-button color="primary" type="submit">Register</button>
+  <button mat-raised-button color="primary" type="submit">Update</button>
 </form>

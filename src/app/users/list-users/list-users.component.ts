@@ -10,7 +10,7 @@ import { User } from '../user.model';
 export class ListUsersComponent implements OnInit {
 
   public users: User[] = [];
-  public columnsToDisplay: string[] = ['email', 'first_name', 'last_name'];
+  public columnsToDisplay: string[] = ['email', 'first_name', 'last_name', 'organization_id', 'active'];
   constructor(private userService: UserService) { }
 
   ngOnInit() {

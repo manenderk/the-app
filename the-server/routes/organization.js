@@ -11,7 +11,15 @@ const Organization = require('../models/organization.schema');
 
 //GET ALL ORGANIZATIONS
 router.get('', (req, res, next) => {
-  Organization.find().then(documents => {
+
+  let orgQuery = Organization.find();
+  if (req.query.activeonly === 'true' ) {
+    orgQuery = Organization.find({
+      active: true
+    });
+  }
+
+  orgQuery.then(documents => {
     res.status(201).json({
       status: 'success',
       organizations: documents
@@ -23,6 +31,7 @@ router.get('', (req, res, next) => {
     })
   })
 });
+
 
 //GET SINGLE Organization
 router.get('/:id', (req, res, next) => {
