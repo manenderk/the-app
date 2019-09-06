@@ -14,6 +14,18 @@
         <td>Email</td><td>{{user.email}}</td>
       </tr>
       <tr>
+        <td>Employee ID</td><td>{{user.employee_id}}</td>
+      </tr>
+      <tr>
+        <td>DOB</td><td>{{user.dob | date: 'dd MMM, yyy'}}</td>
+      </tr>
+      <tr>
+        <td>Organization</td><td>{{organizationName}}</td>
+      </tr>
+      <tr>
+        <td>Role</td><td>{{roleName}}</td>
+      </tr>
+      <tr>
         <td>Active</td><td>{{user.active ? 'Yes' : 'No'}}</td>
       </tr>
       <tr>
@@ -22,9 +34,7 @@
       <tr>
         <td>Modified</td><td>{{user.modified | date: 'dd MMM, yyyy hh:mm:ss'}}</td>
       </tr>
-      <tr>
-        <td>First Name</td><td>{{user.first_name}}</td>
-      </tr>
+
     </table>
   </mat-card-content>
   <mat-card-actions>

@@ -3,6 +3,8 @@ import { ParamMap, ActivatedRoute, Router } from '@angular/router';
 import { User } from '../user.model';
 import { UserService } from '../user.service';
 import Swal from 'sweetalert2';
+import { OrganizationService } from 'src/app/organizations/organization.service';
+import { RoleService } from 'src/app/roles/role.service';
 
 @Component({
   selector: 'app-user-details',
@@ -12,7 +14,16 @@ import Swal from 'sweetalert2';
 export class UserDetailsComponent implements OnInit {
 
   public user: User;
-  constructor(public route: ActivatedRoute, public router: Router, public userService: UserService) { }
+  public roleName = '';
+  public organizationName = '';
+
+  constructor(
+    public route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService,
+    private orgService: OrganizationService,
+    private roleService: RoleService
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -28,14 +39,25 @@ export class UserDetailsComponent implements OnInit {
               email: response.user.email,
               password: '',
               employee_id: response.user.employee_id,
-              organization_id: '',
-              role_id: '',
+              organization_id: response.user.organization_id,
+              role_id: response.user.role_id,
               dob: response.user.dob,
               active: response.user.active,
               created: response.user.created,
               modified: response.user.modified
             };
 
+            if (this.user.organization_id) {
+              this.orgService.getOrganization(this.user.organization_id).subscribe( org => {
+                this.organizationName = org.name;
+              });
+            }
+
+            if (this.user.role_id) {
+              this.roleService.getRole(this.user.role_id).subscribe(role => {
+                this.roleName = role.name;
+              });
+            }
           }
         });
       } else {
