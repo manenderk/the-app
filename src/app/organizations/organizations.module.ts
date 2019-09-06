@@ -5,6 +5,7 @@ import { ListOrganizationComponent } from './list-organization/list-organization
 import { AddOrganizationComponent } from './add-organization/add-organization.component';
 import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
 import { OrganizationDetailComponent } from './organization-detail/organization-detail.component';
+import { AssociateOrganizationComponent } from './associate-organization/associate-organization.component';
 import { MaterialModule } from '../material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -31,12 +32,23 @@ const routes: Routes = [
     path: 'edit-organization/:id',
     component: EditOrganizationComponent,
     canActivate: [AuthGaurd]
+  },
+  {
+    path: 'associate-organization',
+    component: AssociateOrganizationComponent,
+    canActivate: [AuthGaurd]
   }
 ];
 
 
 @NgModule({
-  declarations: [ListOrganizationComponent, AddOrganizationComponent, EditOrganizationComponent, OrganizationDetailComponent],
+  declarations: [
+    ListOrganizationComponent,
+    AddOrganizationComponent,
+    EditOrganizationComponent,
+    OrganizationDetailComponent,
+    AssociateOrganizationComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,

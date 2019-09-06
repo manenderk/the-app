@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/users');
 const roleRoutes = require('./routes/roles');
 const organizationRoutes = require('./routes/organization');
+const pendingOrganizationAssociationRoutes = require('./routes/pendingOrganizationAssociation');
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use((req, res, next) => {
 app.use('/api/user', userRoutes);
 app.use('/api/role', roleRoutes);
 app.use('/api/organization', organizationRoutes);
+app.use('/api/pending-organization-association', pendingOrganizationAssociationRoutes);
 
 module.exports = app;

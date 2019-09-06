@@ -91,4 +91,16 @@ export class OrganizationService {
       environment.serverAddress + 'api/organization/' + id
     );
   }
+
+  requestAssociation(userId: string, organizationId: string) {
+    const postData = {
+      user_id: userId,
+      organization_id: organizationId
+    };
+
+    return this.httpClient.post<{status: string, association: any}>(
+      environment.serverAddress + 'api/pending-organization-association',
+      postData
+    );
+  }
 }
