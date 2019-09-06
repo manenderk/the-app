@@ -4,6 +4,8 @@ import { UserService } from '../user.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { User } from '../user.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-user',
@@ -12,10 +14,6 @@ import { AppService } from 'src/app/app.service';
 })
 export class LoginUserComponent implements OnInit {
   public loginForm: FormGroup;
-  public loginFailed = {
-    status: false,
-    message: ''
-  };
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -47,23 +45,23 @@ export class LoginUserComponent implements OnInit {
       .subscribe(
         response => {
           this.appService.setLoader(false);
-          console.log(response);
           if (response.status === 'error') {
-            this.loginFailed = {
-              status: true,
-              message: response.message
-            };
+            Swal.fire('Error', response.message, 'error');
           } else if (response.token) {
             this.authService.setAuthData(response.token, response.expiresIn, response.userName, response.userId);
-            this.router.navigate(['/users']);
+            this.userService.getUser(response.userId).subscribe(userResponse => {
+              if (userResponse.user.organization_id) {
+                console.log('You are associated with an organization');
+              } else {
+                console.log('You are not associated with any organization');
+              }
+              this.router.navigate(['/users']);
+            });
           }
         },
         error => {
           this.appService.setLoader(false);
-          this.loginFailed = {
-            status: true,
-            message: 'Request error'
-          };
+          Swal.fire('Error', 'Request Error', 'error');
         }
       );
   }
