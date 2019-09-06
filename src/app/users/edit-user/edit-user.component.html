@@ -24,7 +24,7 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Organization</mat-label>
-    <mat-select>
+    <mat-select formControlName="organization_id">
       <mat-option>None</mat-option>
       <mat-option *ngFor="let org of organizationOptions" [value]="org.id">
         {{org.name}}
@@ -32,7 +32,13 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <input type="text" matInput placeholder="Role" formControlName="role_id">
+    <mat-label>Organization</mat-label>
+    <mat-select formControlName="role_id">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let role of roleOptions" [value]="role.id">
+        {{role.name}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-checkbox formControlName="active">Active</mat-checkbox>
   <button mat-raised-button color="primary" type="submit">Update</button>
