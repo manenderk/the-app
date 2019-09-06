@@ -10,7 +10,11 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  public isAuthenticated = false;
+  isAuthenticated = false;
+  authUserDetails: {
+    id: string,
+    name: string
+  };
   private authServiceSub: Subscription;
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -19,6 +23,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isAuthenticated = this.authService.isLoggedIn();
     this.authServiceSub = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
+      if (isAuthenticated) {
+        this.authUserDetails = this.authService.getAuthUserDetails();
+      }
     });
   }
 

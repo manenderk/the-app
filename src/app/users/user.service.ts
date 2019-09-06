@@ -62,16 +62,17 @@ export class UserService {
       email,
       password
     };
-    return this.httpClient.post<{status: string, token: string, expiresIn: number, message: string}>(
+    return this.httpClient.post<{status: string, token: string, expiresIn: number, message: string, userName: string, userId: string}>(
       environment.serverAddress + 'api/user/login', postData
     ).pipe(
       map(response => {
-        console.log(response);
         return {
           status: response.status,
           token: response.token,
           expiresIn: response.expiresIn,
-          message: response.message
+          message: response.message,
+          userName: response.userName,
+          userId: response.userId
         };
       }
     ));

@@ -27,8 +27,6 @@ export class LoginUserComponent implements OnInit {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/users']);
     }
-
-
     this.loginForm = new FormGroup({
       email: new FormControl(null, {
         validators: [Validators.required, Validators.email]
@@ -43,7 +41,6 @@ export class LoginUserComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
     this.appService.setLoader(true);
     this.userService
       .loginUser(this.loginForm.value.email, this.loginForm.value.password)
@@ -57,7 +54,7 @@ export class LoginUserComponent implements OnInit {
               message: response.message
             };
           } else if (response.token) {
-            this.authService.setAuthData(response.token, response.expiresIn);
+            this.authService.setAuthData(response.token, response.expiresIn, response.userName, response.userId);
             this.router.navigate(['/users']);
           }
         },

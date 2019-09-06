@@ -4,6 +4,7 @@
     <span class="navigation-spacer"></span>
     <span [routerLink]="['/login']" routerLinkActive="router-link-active" class="navigation-item" *ngIf="!isAuthenticated">Login</span>
     <span [routerLink]="['/register']" routerLinkActive="router-link-active" class="navigation-item" *ngIf="!isAuthenticated">Register</span>
+    <span *ngIf="isAuthenticated"><small>Hello {{authUserDetails.name}}</small></span>
     <span (click)="logout()" class="navigation-item" *ngIf="isAuthenticated">Logout</span>
   </mat-toolbar-row>
 </mat-toolbar>

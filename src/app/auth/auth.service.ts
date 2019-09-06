@@ -11,11 +11,13 @@ export class AuthService {
 
   constructor() { }
 
-  setAuthData(token: string, expiresIn: number) {
+  setAuthData(token: string, expiresIn: number, userName: string, userId: string) {
     const now = new Date();
     const expirationDate = new Date(now.getTime() + expiresIn * 1000);
     localStorage.setItem('auth-token', token);
     localStorage.setItem('auth-expires-in', expirationDate.toISOString());
+    localStorage.setItem('auth-user-name', userName);
+    localStorage.setItem('auth-user-id', userId);
     this.isAuthenticated = true;
     this.authStateListener.next(this.isAuthenticated);
   }
@@ -23,6 +25,8 @@ export class AuthService {
   clearAuthData() {
     localStorage.removeItem('auth-token');
     localStorage.removeItem('auth-expires-in');
+    localStorage.removeItem('auth-user-name');
+    localStorage.removeItem('auth-user-id');
     this.isAuthenticated = false;
     this.authStateListener.next(this.isAuthenticated);
   }
@@ -49,6 +53,13 @@ export class AuthService {
 
   getAuthStatusListener() {
     return this.authStateListener.asObservable();
+  }
+
+  getAuthUserDetails() {
+    return {
+      id : localStorage.getItem('auth-user-id'),
+      name: localStorage.getItem('auth-user-name')
+    };
   }
 
 }
