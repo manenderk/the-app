@@ -4,7 +4,16 @@ const router = express.Router();
 const PendingOrganizationAssociation = require('../models/pendingOrganizationAssociation');
 
 router.get('', (req, res, next) => {
-  PendingOrganizationAssociation.find().then(docs => {
+
+  let associationQuery = PendingOrganizationAssociation.find();
+
+  if (req.query.user) {
+    associationQuery = PendingOrganizationAssociation.find({
+      user_id: req.query.user
+    });
+  }
+
+  associationQuery.then(docs => {
     res.status(200).json({
       status: 'success',
       associations: docs
@@ -34,5 +43,6 @@ router.post('/', (req, res, next) => {
     })
   });
 });
+
 
 module.exports = router;

@@ -10,6 +10,7 @@ import { MaterialModule } from '../material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthGaurd } from '../auth/auth.gaurd';
+import { AssociationRequestsComponent } from './association-requests/association-requests.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,11 @@ const routes: Routes = [
     path: 'associate-organization',
     component: AssociateOrganizationComponent,
     canActivate: [AuthGaurd]
+  },
+  {
+    path: 'association-requests',
+    component: AssociationRequestsComponent,
+    canActivate: [AuthGaurd]
   }
 ];
 
@@ -47,7 +53,8 @@ const routes: Routes = [
     AddOrganizationComponent,
     EditOrganizationComponent,
     OrganizationDetailComponent,
-    AssociateOrganizationComponent
+    AssociateOrganizationComponent,
+    AssociationRequestsComponent
   ],
   imports: [
     CommonModule,

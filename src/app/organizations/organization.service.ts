@@ -103,4 +103,21 @@ export class OrganizationService {
       postData
     );
   }
+
+  getPendingAssociations(userId: string = '') {
+    return this.httpClient.get<{status: string, associations: any}>(
+      userId !== '' ?
+        environment.serverAddress + 'api/pending-organization-association/?user=' + userId :
+        environment.serverAddress + 'api/pending-organization-association/'
+    ).pipe(
+      map(response => {
+        return response.associations.map(association => {
+          return {
+            organization_id: association.organization_id,
+            user_id: association.user_id
+          };
+        });
+      })
+    );
+  }
 }

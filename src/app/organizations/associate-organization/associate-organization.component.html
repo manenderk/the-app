@@ -1,25 +1,31 @@
-<h1>You are not associated with any organization</h1>
-<p>To associate with an organization please select an organization from below list and click on associate me.</p>
+<div *ngIf="!associationSubmitted;else showSubmittedMessage">
+  <h1>You are not associated with any organization</h1>
+  <p>To associate with an organization please select an organization from below list and click on associate me.</p>
 
-<form [formGroup]="selectOrgForm" (submit)="associateOrganization()">
-  <mat-form-field>
-    <mat-label>Organization</mat-label>
-    <mat-select formControlName="organization_id">
-      <mat-option>None</mat-option>
-      <mat-option *ngFor="let org of organizationList" [value]="org.id">
-        {{org.name}}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="selectOrgForm.get('organization_id').invalid">Please select an Organization</mat-error>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">Associate Me</button>
-</form>
+  <form [formGroup]="selectOrgForm" (submit)="associateOrganization()">
+    <mat-form-field>
+      <mat-label>Organization</mat-label>
+      <mat-select formControlName="organization_id">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let org of organizationList" [value]="org.id">
+          {{org.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="selectOrgForm.get('organization_id').invalid">Please select an Organization</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Associate Me</button>
+  </form>
 
-<h4>Not found your organization. Ask us to create an organization for you.</h4>
-<form [formGroup]="addOrgForm" (submit)="addOrganization()">
-  <mat-form-field>
-    <input matInput type="text" placeholder="Organization Name" formControlName="name">
-    <mat-error *ngIf="addOrgForm.get('name').invalid">Please enter organization name</mat-error>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">Request for new Organization</button>
-</form>
+  <h4>Not found your organization. Ask us to create an organization for you.</h4>
+  <form [formGroup]="addOrgForm" (submit)="addOrganization()">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Organization Name" formControlName="name">
+      <mat-error *ngIf="addOrgForm.get('name').invalid">Please enter organization name</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Request for new Organization</button>
+  </form>
+</div>
+<ng-template #showSubmittedMessage>
+  <h1>You have submitted association request to {{organizationName}}</h1>
+  <h1>Please wait organization to approve your request</h1>
+</ng-template>
