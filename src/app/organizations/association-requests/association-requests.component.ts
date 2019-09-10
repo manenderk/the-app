@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { OrganizationService } from '../organization.service';
 import { UserService } from 'src/app/users/user.service';
-import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { AssoicationRequests } from './association-requests.model';
 
 @Component({
   selector: 'app-association-requests',
@@ -13,27 +13,20 @@ export class AssociationRequestsComponent implements OnInit {
 
   constructor(private orgService: OrganizationService, private userService: UserService) { }
 
-  pendingAssociations: {
-    id: string,
-    user_id: string,
-    organization_id: string
-  }[];
+  associationRequest: AssoicationRequests[];
 
 
 
   columnsToDisplay = ['user_id', 'organization_id', 'actions'];
 
   ngOnInit() {
-
     this.getPendingAssociations();
-
   }
 
   getPendingAssociations() {
     this.orgService.getPendingAssociations().subscribe(response => {
-      this.pendingAssociations = response;
-
-      this.pendingAssociations.map((association) => {
+      this.associationRequest = response;
+      this.associationRequest.map((association: AssoicationRequests) => {
         const a = association;
         this.userService.getUser(association.user_id).subscribe(u => {
           a.user_id = u.user.email;
