@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const PendingOrganizationAssociation = require('../models/pendingOrganizationAssociation');
+const CommonUtil = require('../util/common');
+
+const commonUtil = new CommonUtil();
 
 router.get('', (req, res, next) => {
 
@@ -44,14 +47,55 @@ router.post('/', (req, res, next) => {
   });
 });
 
+router.post('/approve/', (req, res, next) => {
+  PendingOrganizationAssociation.findById(
+    req.body.association_id
+  ).then(result => {
+
+    if(result._id){
+
+      commonUtil.approveUserAssociationWithOrganization(result.user_id, result.organization_id).then(r => {
+        if (r) {
+          PendingOrganizationAssociation.findByIdAndDelete(result._id).then(s => {
+            res.status(200).json({
+              status: 'success',
+              message: 'Association Approved'
+            })
+          }).catch(err => {
+            res.status(501).json({
+              status: 'error',
+              message: err.message
+            })
+          })
+        } else {
+          res.status(400).json({
+            status: 'error',
+            message: 'Not Found'
+          })
+        }
+      })
+    }
+    else{
+      res.status(400).json({
+        status: 'error',
+        message: 'Not Found'
+      })
+    }
+  }).catch(err => {
+    res.status(501).json({
+      status: 'error',
+      message: err.message
+    })
+  })
+});
+
 router.delete('/:id', (req, res, next) => {
-  const associationId = req.params.id;
   PendingOrganizationAssociation.deleteOne({
       _id: req.params.id
     }).then(result => {
     res.status(200).json({
       status: 'success',
-      message: 'Association Deleted'
+      message: 'Association Deleted',
     })
   }).catch (err => {
     res.status(501).json({

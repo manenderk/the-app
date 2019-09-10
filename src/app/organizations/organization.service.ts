@@ -122,6 +122,16 @@ export class OrganizationService {
     );
   }
 
+  approveAssociation(id) {
+    const postData = {
+      association_id: id
+    };
+    return this.httpClient.post<{ status: string; message: string }>(
+      environment.serverAddress + 'api/pending-organization-association/approve',
+      postData
+    );
+  }
+
   deleteAssociation(id) {
     return this.httpClient.delete<{status: string, message: string}>(
       environment.serverAddress + 'api/pending-organization-association/' + id

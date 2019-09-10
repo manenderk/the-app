@@ -47,7 +47,19 @@ export class AssociationRequestsComponent implements OnInit {
   }
 
   approveAssociation(id) {
-    console.log(id);
+    this.orgService.approveAssociation(id).subscribe(
+      response => {
+        if (response.status === 'success') {
+          Swal.fire('Success', 'Association Accepted', 'success');
+          this.getPendingAssociations();
+        } else {
+          Swal.fire('Error', response.message, 'error');
+        }
+      },
+      error => {
+        Swal.fire('Error', error, 'error');
+      }
+    );
   }
 
   rejectAssociation(id) {

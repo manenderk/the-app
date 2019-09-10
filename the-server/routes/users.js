@@ -91,11 +91,12 @@ router.put('/:id', (req, res, next) => {
     email: req.body.email,
     employee_id: req.body.employee_id,
     dob: req.body.dob,
-    organization_id: req.body.organization_id,
-    role_id: req.body.role_id,
+    organization_id: req.body.organization_id === '' ? null : req.body.organization_id,
+    role_id: req.body.role_id === '' ? null : req.body.role_id,
     active: req.body.active,
     modified: new Date()
   });
+
   User.updateOne({
     _id: req.params.id
   }, user).then(result => {

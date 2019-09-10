@@ -101,6 +101,7 @@ export class UserService {
       dob,
       active
     };
+    console.log(postData);
     return this.httpClient.put<{status: string, message: string}>(
       environment.serverAddress + 'api/user/' + id,
       postData
