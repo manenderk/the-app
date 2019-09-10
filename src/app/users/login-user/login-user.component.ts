@@ -52,7 +52,7 @@ export class LoginUserComponent implements OnInit {
             this.userService.getUser(response.userId).subscribe(userResponse => {
               if (userResponse.user.organization_id) {
                 console.log('You are associated with an organization');
-                this.router.navigate(['/users']);
+                this.router.navigate(['/feeds']);
               } else {
                 console.log('You are not associated with any organization');
                 this.router.navigate(['/associate-organization']);
