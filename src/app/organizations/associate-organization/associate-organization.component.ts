@@ -31,17 +31,7 @@ export class AssociateOrganizationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.userData = this.authService.getAuthUserDetails();
-
-    this.orgService.getPendingAssociations(this.userData.id).subscribe(response => {
-      if (response && response.length > 0) {
-        this.associationSubmitted = true;
-        this.orgService.getOrganization(response[0].organization_id).subscribe(org => {
-          this.organizationName = org.name;
-        });
-      }
-    });
+    this.getPreAssociationRequests();
 
     this.selectOrgForm = new FormGroup({
       organization_id: new FormControl(null, {
@@ -69,11 +59,29 @@ export class AssociateOrganizationComponent implements OnInit {
     this.orgService.requestAssociation(this.userData.id, this.selectOrgForm.value.organization_id).subscribe(response => {
       if (response.status === 'success') {
         Swal.fire('Success', 'Your request is submitted', 'success');
+        this.getPreAssociationRequests();
       }
     });
   }
 
   addOrganization() {
 
+  }
+
+  getPreAssociationRequests() {
+    this.userData = this.authService.getAuthUserDetails();
+
+    this.orgService
+      .getPendingAssociations(this.userData.id)
+      .subscribe(response => {
+        if (response && response.length > 0) {
+          this.associationSubmitted = true;
+          this.orgService
+            .getOrganization(response[0].organization_id)
+            .subscribe(org => {
+              this.organizationName = org.name;
+            });
+        }
+      });
   }
 }
