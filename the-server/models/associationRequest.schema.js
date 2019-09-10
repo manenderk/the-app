@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PendingOrganizationAssociation = mongoose.Schema({
+const AssociationRequest = mongoose.Schema({
   user_id: {
     type: String,
     required: true
@@ -11,4 +11,4 @@ const PendingOrganizationAssociation = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('PendingOrganizationAssociation', PendingOrganizationAssociation);
+module.exports = mongoose.model('AssociationRequest', AssociationRequest);
