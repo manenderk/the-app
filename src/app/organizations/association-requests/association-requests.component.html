@@ -1,1 +1,24 @@
-<p>association-requests works!</p>
+<div class="page-header-action-buttons">
+  <button mat-raised-button color="primary" [routerLink]="['/add-role']" routerLinkActive="router-link-active">Add
+    Role</button>
+</div>
+<table mat-table [dataSource]="pendingAssociations">
+  <ng-container matColumnDef="user_id">
+    <th mat-header-cell *matHeaderCellDef> Email </th>
+    <td mat-cell *matCellDef="let element">{{element.user_id}} </td>
+  </ng-container>
+  <ng-container matColumnDef="organization_id">
+    <th mat-header-cell *matHeaderCellDef> Organization Name </th>
+    <td mat-cell *matCellDef="let element">{{element.organization_id}} </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-raised-button color="primary" (click)="element.id" >Approve</button>&nbsp;
+      <button mat-raised-button color="primary" (click)="element.id" >Reject</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+</table>

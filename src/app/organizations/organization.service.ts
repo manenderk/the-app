@@ -113,8 +113,9 @@ export class OrganizationService {
       map(response => {
         return response.associations.map(association => {
           return {
-            organization_id: association.organization_id,
-            user_id: association.user_id
+            id: association._id,
+            user_id: association.user_id,
+            organization_id: association.organization_id
           };
         });
       })
