@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrganizationService } from '../organization.service';
 import { UserService } from 'src/app/users/user.service';
 import { map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-association-requests',
@@ -50,7 +51,20 @@ export class AssociationRequestsComponent implements OnInit {
   }
 
   rejectAssociation(id) {
-
+    this.orgService.deleteAssociation(id).subscribe(
+      response => {
+        if (response.status === 'success') {
+          Swal.fire('Success', 'Association Rejected', 'success');
+          this.getPendingAssociations();
+        } else {
+          Swal.fire('Error', response.message, 'error');
+        }
+      },
+      error => {
+        Swal.fire('Error', error , 'error');
+      }
+    );
   }
+
 
 }

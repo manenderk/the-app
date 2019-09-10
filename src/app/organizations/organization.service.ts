@@ -121,4 +121,10 @@ export class OrganizationService {
       })
     );
   }
+
+  deleteAssociation(id) {
+    return this.httpClient.delete<{status: string, message: string}>(
+      environment.serverAddress + 'api/pending-organization-association/' + id
+    );
+  }
 }

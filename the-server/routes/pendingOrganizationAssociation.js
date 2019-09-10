@@ -32,7 +32,7 @@ router.post('/', (req, res, next) => {
     organization_id: req.body.organization_id
   });
   association.save().then(result => {
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       association: result
     })
@@ -42,6 +42,23 @@ router.post('/', (req, res, next) => {
       message: err
     })
   });
+});
+
+router.delete('/:id', (req, res, next) => {
+  const associationId = req.params.id;
+  PendingOrganizationAssociation.deleteOne({
+      _id: req.params.id
+    }).then(result => {
+    res.status(200).json({
+      status: 'success',
+      message: 'Association Deleted'
+    })
+  }).catch (err => {
+    res.status(501).json({
+      status: 'error',
+      message: err
+    })
+  })
 });
 
 
