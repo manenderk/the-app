@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const pendingOrganizationSchema = mongoose.Schema({
-  name: {
+const OrganizationRequest = mongoose.Schema({
+  organization_name: {
     type: String,
     required: true
   },
@@ -11,4 +11,4 @@ const pendingOrganizationSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Organization', organizationSchema);
+module.exports = mongoose.model('OrganizationRequest', OrganizationRequest);
