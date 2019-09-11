@@ -8,6 +8,8 @@ const roleRoutes = require('./routes/roles');
 const organizationRoutes = require('./routes/organization');
 const associationRequestRoutes = require('./routes/associationRequest');
 const organizationRequestRoutes = require('./routes/organizationRequest');
+const feedsRoute = require('./routes/feeds');
+const cron = require('./util/feed-cron');
 
 const app = express();
 
@@ -37,5 +39,6 @@ app.use('/api/role', roleRoutes);
 app.use('/api/organization', organizationRoutes);
 app.use('/api/pending-organization-association', associationRequestRoutes);
 app.use('/api/organization-request', organizationRequestRoutes);
+app.use('/api/feeds', feedsRoute);
 
 module.exports = app;
