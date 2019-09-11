@@ -18,6 +18,22 @@ class CommonUtil {
       })
     });
   }
+
+  approveOrganization(user_id, organization_name) {
+    return new Promise(function(resolve, reject){
+      organization = Organization({
+        name: organization_name,
+        active: true,
+        created: new Date()
+      });
+
+      organization.save().then(doc => {
+        resolve(true);
+      }).catch(err => {
+        resolve(false);
+      })
+    });
+  }
 }
 
 module.exports = CommonUtil;

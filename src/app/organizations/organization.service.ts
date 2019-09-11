@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Organization } from './organization.model';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import { OrganizationRequest } from './organization-request/organization-request.model';
 
 
 @Injectable({
@@ -135,6 +136,50 @@ export class OrganizationService {
   deleteAssociation(id) {
     return this.httpClient.delete<{status: string, message: string}>(
       environment.serverAddress + 'api/pending-organization-association/' + id
+    );
+  }
+
+  getOrganizationRequests() {
+    return this.httpClient.get<{status: string, organizationRequests: any}>(
+      environment.serverAddress + 'api/organization-request/'
+    ).pipe(
+      map(response => {
+        return response.organizationRequests.map(organizationRequest => {
+          return {
+            id: organizationRequest._id,
+            user_id: organizationRequest.user_id,
+            organization_name: organizationRequest.organization_name
+          };
+        });
+      })
+    );
+  }
+
+  addOrganizationRequest(userId: string, organizationName: string) {
+    const postData = {
+      user_id: userId,
+      organization_name: organizationName
+    };
+
+    return this.httpClient.post<{status: string, organizationRequest: OrganizationRequest }>(
+      environment.serverAddress + 'api/organization-request/',
+      postData
+    );
+  }
+
+  rejectOrganizationRequest(id) {
+    return this.httpClient.delete(
+      environment.serverAddress + 'api/organization-request/' + id
+    );
+  }
+
+  approveOrganizationRequest(id) {
+    const postData = {
+      request_id : id
+    };
+    return this.httpClient.post(
+      environment.serverAddress + 'api/organization-request/',
+      postData
     );
   }
 }

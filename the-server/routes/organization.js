@@ -1,9 +1,6 @@
 const express = require('express');
 const multer = require('multer');
 const imageStorage = require('../util/file-upload');
-const fs = require('fs');
-var path = require('path');
-
 
 const router = express.Router();
 
