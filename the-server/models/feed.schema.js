@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const roleSchema = mongoose.Schema({
+const FeedSchema = mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -16,6 +16,11 @@ const roleSchema = mongoose.Schema({
     ref: 'User',
     required: true
   },
+  organization_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organization',
+    required: true
+  },
   date: {
     type: Date,
     required: true,
@@ -24,7 +29,11 @@ const roleSchema = mongoose.Schema({
   active: {
     type: Boolean,
     default: false
+  },
+  feeed_type: {
+    type: String,
+    enum: ['Event', 'Birthday']
   }
 });
 
-module.exports = mongoose.model('Role', roleSchema);
+module.exports = mongoose.model('Feed', FeedSchema);
