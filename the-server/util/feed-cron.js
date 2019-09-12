@@ -60,7 +60,7 @@ function addBirthdaysInFeed(users) {
     const result = await isEventAdded(conditions);
     if (!result)  {
       const feed = new Feed({
-        title: 'Happy Birtday',
+        title: 'Happy Birthday',
         description: '',
         image: '',
         user_id: user._id,
@@ -80,28 +80,112 @@ function addBirthdaysInFeed(users) {
   });
 }
 
-cron.schedule('* * * * *', () => {
+function addAnniversoryInFeed(users) {
+  users.forEach(async (user) => {
+    const conditions = {
+      "$expr": {
+        "$and": [
+          {
+            organization_id: user.organization_id
 
+          }, {
+            user_id: user._id
+
+          }, {
+            type: 'Anniversory'
+          }, {
+            "$eq": [{
+              "$dayOfMonth": "$date"
+            }, {
+              "$dayOfMonth": now
+            }]
+          }, {
+            "$eq": [{
+              "$month": "$date"
+            }, {
+              "$month": now
+            }]
+          }, {
+            "$eq": [{
+              "$year": "$date"
+            }, {
+              "$year": now
+            }]
+          }
+        ]
+      }
+    };
+    const result = await isEventAdded(conditions);
+    if (!result)  {
+      const feed = new Feed({
+        title: 'Happy Anniversory',
+        description: '',
+        image: '',
+        user_id: user._id,
+        organization_id: user.organization_id,
+        date: new Date(),
+        active: true,
+        feed_type: 'Anniversory'
+      }).save().then(doc => {
+        console.log('doc added' + doc);
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+    else {
+      console.log('Event is already added');
+    }
+  });
+}
+
+
+cron.schedule('* * * * *', () => {
+  //For Birthdays
   User.find({
     "$expr": {
       "$and": [{
           "$eq": [{
             "$dayOfMonth": "$dob"
           }, {
-            "$dayOfMonth": previousDate
+            "$dayOfMonth": now
           }]
         },
         {
           "$eq": [{
             "$month": "$dob"
           }, {
-            "$month": previousDate
+            "$month": now
           }]
         }
       ]
     }
   }).then(users => {
     addBirthdaysInFeed(users);
+  }).catch(err => {
+    console.log(err);
+  })
+
+  //For Anniversories
+  User.find({
+    "$expr": {
+      "$and": [{
+          "$eq": [{
+            "$dayOfMonth": "$doj"
+          }, {
+            "$dayOfMonth": now
+          }]
+        },
+        {
+          "$eq": [{
+            "$month": "$doj"
+          }, {
+            "$month": now
+          }]
+        }
+      ]
+    }
+  }).then(users => {
+    addAnniversoryInFeed(users);
   }).catch(err => {
     console.log(err);
   })

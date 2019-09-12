@@ -32,7 +32,7 @@ const FeedSchema = mongoose.Schema({
   },
   feeed_type: {
     type: String,
-    enum: ['Event', 'Birthday']
+    enum: ['Event', 'Birthday', 'Anniversory']
   }
 });
 
