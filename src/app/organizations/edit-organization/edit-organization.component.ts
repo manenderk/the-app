@@ -39,9 +39,9 @@ export class EditOrganizationComponent implements OnInit {
           this.org = org;
           this.editOrgForm.setValue({
             name: org.name,
-            description: org.description,
+            description: org.description ? org.description : '',
             active: org.active,
-            logo: org.logo
+            logo: org.logo ? org.logo : ''
           });
           this.logoPreview = org.logo;
         });

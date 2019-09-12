@@ -9,7 +9,7 @@
   </ng-container>
   <ng-container matColumnDef="logo">
     <th mat-header-cell *matHeaderCellDef> Logo </th>
-    <td mat-cell *matCellDef="let element"> <img class="organization-logo" [src]="element.logo"> </td>
+    <td mat-cell *matCellDef="let element"> <img class="organization-logo" [src]="element.logo" *ngIf="element.logo"> </td>
   </ng-container>
   <ng-container matColumnDef="active">
     <th mat-header-cell *matHeaderCellDef> Active </th>

@@ -56,16 +56,31 @@ export class AssociateOrganizationComponent implements OnInit {
   }
 
   associateOrganization() {
+    if (this.selectOrgForm.invalid) {
+      return;
+    }
     this.orgService.requestAssociation(this.userData.id, this.selectOrgForm.value.organization_id).subscribe(response => {
       if (response.status === 'success') {
         Swal.fire('Success', 'Your request is submitted', 'success');
         this.getPreAssociationRequests();
+      } else {
+        Swal.fire('Error', 'Unable to submit your request', 'error');
       }
     });
   }
 
   addOrganization() {
-
+    if (this.addOrgForm.invalid) {
+      return;
+    }
+    this.orgService.addOrganizationRequest(this.userData.id, this.addOrgForm.value.name).subscribe(response => {
+      if (response.status === 'success') {
+        Swal.fire('Success', 'Your request is submitted', 'success');
+        this.getPreAssociationRequests();
+      } else {
+        Swal.fire('Error', 'Unable to submit your request', 'error');
+      }
+    });
   }
 
   getPreAssociationRequests() {

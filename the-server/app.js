@@ -22,6 +22,7 @@ app.use('/images', express.static(path.join('the-server/images')));
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 mongoose.connect('mongodb+srv://clusteruser:clusteruser@app-cluster-t6cjp.mongodb.net/test?retryWrites=true&w=majority')
   .then(() => console.log('Connected to database'))

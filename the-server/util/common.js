@@ -21,14 +21,20 @@ class CommonUtil {
 
   approveOrganization(user_id, organization_name) {
     return new Promise(function(resolve, reject){
-      organization = Organization({
+      const organization = Organization({
         name: organization_name,
         active: true,
         created: new Date()
       });
-
       organization.save().then(doc => {
-        resolve(true);
+        const updateUserData  = {
+          organization_id: doc._id
+        };
+        User.findByIdAndUpdate(user_id, updateUserData).then(res => {
+          resolve(true);
+        }).catch(err => {
+          resolve(false);
+        })
       }).catch(err => {
         resolve(false);
       })

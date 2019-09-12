@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Organization } from './organization.model';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
-import { OrganizationRequest } from './organization-request/organization-request.model';
+import { OrganizationRequest } from './organization-request.model';
 
 
 @Injectable({
@@ -140,11 +140,11 @@ export class OrganizationService {
   }
 
   getOrganizationRequests() {
-    return this.httpClient.get<{status: string, organizationRequests: any}>(
+    return this.httpClient.get<{status: string, organization_requests: any}>(
       environment.serverAddress + 'api/organization-request/'
     ).pipe(
       map(response => {
-        return response.organizationRequests.map(organizationRequest => {
+        return response.organization_requests.map(organizationRequest => {
           return {
             id: organizationRequest._id,
             user_id: organizationRequest.user_id,
@@ -168,7 +168,7 @@ export class OrganizationService {
   }
 
   rejectOrganizationRequest(id) {
-    return this.httpClient.delete(
+    return this.httpClient.delete<{status: string, message: string}>(
       environment.serverAddress + 'api/organization-request/' + id
     );
   }
@@ -177,8 +177,8 @@ export class OrganizationService {
     const postData = {
       request_id : id
     };
-    return this.httpClient.post(
-      environment.serverAddress + 'api/organization-request/',
+    return this.httpClient.post<{ status: string; message: string }>(
+      environment.serverAddress + 'api/organization-request/approve',
       postData
     );
   }

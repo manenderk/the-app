@@ -7,7 +7,7 @@
       </tr>
       <tr>
         <td>Logo</td>
-        <td><img [src]="organization.logo" class="organization-logo"></td>
+        <td><img [src]="organization.logo" class="organization-logo" *ngIf="organization.logo"></td>
       </tr>
       <tr>
         <td>Description</td>

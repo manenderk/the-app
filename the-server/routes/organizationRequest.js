@@ -78,12 +78,15 @@ router.post('/approve', (req, res, next) => {
       }
     })
   }).catch(err => {
+     console.log('test', err);
+
     res.status(500).json({
       status: 'error',
       message: err
     })
   })
 })
+
 
 
 module.exports = router;
