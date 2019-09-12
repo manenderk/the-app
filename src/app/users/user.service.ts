@@ -25,7 +25,9 @@ export class UserService {
               last_name: user.last_name,
               email: user.email,
               password: '',
-              employee_id: user.emaployee_id ? user.emaployee_id : '',
+              employee_id: user.employee_id ? user.employee_id : '',
+              dob: user.dob,
+              doj: user.doj,
               organization_id: user.organization_id ? user.organization_id : '',
               role_id: user.role_id,
               active: user.active,
@@ -88,6 +90,7 @@ export class UserService {
     organizationId: string,
     roleId: string,
     dob: Date,
+    doj: Date,
     active: boolean
   ) {
     const postData = {
@@ -99,6 +102,7 @@ export class UserService {
       organization_id: organizationId,
       role_id: roleId,
       dob,
+      doj,
       active
     };
     console.log(postData);

@@ -23,6 +23,11 @@
     <mat-datepicker #dobPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
+    <input matInput [matDatepicker]="dojPicker" placeholder="DOJ" formControlName="doj">
+    <mat-datepicker-toggle matSuffix [for]="dojPicker"></mat-datepicker-toggle>
+    <mat-datepicker #dojPicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
     <mat-label>Organization</mat-label>
     <mat-select formControlName="organization_id">
       <mat-option value="">None</mat-option>

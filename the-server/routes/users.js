@@ -57,6 +57,7 @@ router.post('', (req, res, next) => {
       password: hash,
       employee_id: req.body.employee_id,
       dob: req.body.dob,
+      doj: req.body.doj,
       organization_id: req.body.organization_id,
       role_id: req.body.role_id,
       active: req.body.active,
@@ -83,6 +84,7 @@ router.post('', (req, res, next) => {
 
 //UPDATE USER
 router.put('/:id', (req, res, next) => {
+  console.log(req.body);
   const user = new User({
     _id: req.params.id,
     first_name: req.body.first_name,
@@ -91,12 +93,13 @@ router.put('/:id', (req, res, next) => {
     email: req.body.email,
     employee_id: req.body.employee_id,
     dob: req.body.dob,
+    doj: req.body.doj,
     organization_id: req.body.organization_id === '' ? null : req.body.organization_id,
     role_id: req.body.role_id === '' ? null : req.body.role_id,
     active: req.body.active,
     modified: new Date()
   });
-
+  console.log(user);
   User.updateOne({
     _id: req.params.id
   }, user).then(result => {

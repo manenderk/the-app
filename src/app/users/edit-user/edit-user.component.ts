@@ -55,6 +55,9 @@ export class EditUserComponent implements OnInit {
       dob: new FormControl(null, {
         validators: [Validators.required]
       }),
+      doj: new FormControl(null, {
+        validators: [Validators.required]
+      }),
       active: new FormControl()
     });
 
@@ -74,6 +77,7 @@ export class EditUserComponent implements OnInit {
                 : '',
               role_id: response.user.role_id ? response.user.role_id : '',
               dob: new Date(response.user.dob),
+              doj: new Date(response.user.doj),
               active: response.user.active
             });
           }
@@ -118,6 +122,7 @@ export class EditUserComponent implements OnInit {
         this.editUserForm.value.organization_id,
         this.editUserForm.value.role_id,
         this.editUserForm.value.dob,
+        this.editUserForm.value.doj,
         this.editUserForm.value.active === true ? true : false
       )
       .subscribe(

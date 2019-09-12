@@ -42,6 +42,7 @@ export class UserDetailsComponent implements OnInit {
               organization_id: response.user.organization_id,
               role_id: response.user.role_id,
               dob: response.user.dob,
+              doj: response.user.doj,
               active: response.user.active,
               created: response.user.created,
               modified: response.user.modified

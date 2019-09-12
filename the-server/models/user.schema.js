@@ -28,7 +28,10 @@ const userSchema = mongoose.Schema({
     default: ''
   },
   dob: {
-    type: Date,
+    type: Date
+  },
+  doj: {
+    type: Date
   },
   organization_id: {
     type: mongoose.Schema.Types.ObjectId,
