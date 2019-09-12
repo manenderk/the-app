@@ -5,6 +5,8 @@ const now = new Date();
 var previousDate = new Date();
 previousDate.setDate(now.getDate() - 1);
 
+//deleteAllFeed();
+
 function isEventAdded(conditions) {
   return new Promise((resolve, reject) => {
     Feed.find(
@@ -13,6 +15,7 @@ function isEventAdded(conditions) {
       if (docs.length == 0) {
         resolve(false);
       } else {
+        console.log('Already added docs: ' + docs);
         resolve(true);
       }
     }).catch(err => {
@@ -34,7 +37,7 @@ function addBirthdaysInFeed(users) {
             user_id: user._id
 
           }, {
-            type: 'Birthday'
+            feed_type: 'Birthday'
           }, {
             "$eq": [{
               "$dayOfMonth": "$date"
@@ -75,7 +78,7 @@ function addBirthdaysInFeed(users) {
       })
     }
     else {
-      console.log('Event is already added');
+      console.log('Birthday is already added');
     }
   });
 }
@@ -92,7 +95,7 @@ function addAnniversoryInFeed(users) {
             user_id: user._id
 
           }, {
-            type: 'Anniversory'
+            feed_type: 'Anniversory'
           }, {
             "$eq": [{
               "$dayOfMonth": "$date"
@@ -133,7 +136,7 @@ function addAnniversoryInFeed(users) {
       })
     }
     else {
-      console.log('Event is already added');
+      console.log('Anniversory is already added');
     }
   });
 }
@@ -190,6 +193,12 @@ cron.schedule('* * * * *', () => {
     console.log(err);
   })
 });
+
+function deleteAllFeed() {
+  Feed.deleteMany({}).then(result => {
+    console.log(result);
+  });
+}
 
 module.exports = cron;
 

@@ -1,1 +1,18 @@
-<p>list-feed works!</p>
+
+<mat-card class="feed-item" *ngFor="let feed of feeds">
+  <mat-card-header>
+    <!-- <div mat-card-avatar class="example-header-image"></div> -->
+    <mat-card-title>{{feed.title}}</mat-card-title>
+    <mat-card-subtitle>{{feed.user_id }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="feed.image" *ngIf="feed.image">
+  <mat-card-content>
+    <p>
+      {{feed.description}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions style="text-align: right">
+    <button mat-raised-button color="primary">LIKE</button>
+    <button mat-raised-button color="primary">SHARE</button>
+  </mat-card-actions>
+</mat-card>
