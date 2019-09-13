@@ -3,6 +3,7 @@ import { FeedService } from '../feed.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserService } from 'src/app/users/user.service';
 import { Feed } from '../feed.model';
+import { filter } from 'minimatch';
 
 @Component({
   selector: 'app-list-feed',
@@ -40,7 +41,17 @@ export class ListFeedComponent implements OnInit {
       }
 
       this.feedService.getFeeds(this.orgId).subscribe(feeds => {
-        this.feeds = feeds;
+        this.feeds = feeds.sort((a: Feed, b: Feed) => {
+          return a.date.getTime() < b.date.getTime() ? 1 : a.date.getTime() > b.date.getTime() ? -1 : 0;
+        });
+        this.feeds.map(feed => {
+          this.userService.getUser(feed.user_id).subscribe(userResponse => {
+            if (userResponse.user) {
+              feed.user_id = userResponse.user.first_name + ' ' + userResponse.user.last_name;
+            }
+            return feed;
+          });
+        });
       });
     });
   }
