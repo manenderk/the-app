@@ -15,7 +15,7 @@ function isEventAdded(conditions) {
       if (docs.length == 0) {
         resolve(false);
       } else {
-        console.log('Already added docs: ' + docs);
+        //console.log('Already added docs: ' + docs);
         resolve(true);
       }
     }).catch(err => {
@@ -72,13 +72,13 @@ function addBirthdaysInFeed(users) {
         active: true,
         feed_type: 'Birthday'
       }).save().then(doc => {
-        console.log('doc added' + doc);
+        //console.log('doc added' + doc);
       }).catch(err => {
-        console.log(err);
+        //console.log(err);
       })
     }
     else {
-      console.log('Birthday is already added');
+      //console.log('Birthday is already added');
     }
   });
 }
@@ -130,13 +130,13 @@ function addAnniversoryInFeed(users) {
         active: true,
         feed_type: 'Anniversory'
       }).save().then(doc => {
-        console.log('doc added' + doc);
+        //console.log('doc added' + doc);
       }).catch(err => {
-        console.log(err);
+        //console.log(err);
       })
     }
     else {
-      console.log('Anniversory is already added');
+      //console.log('Anniversory is already added');
     }
   });
 }
@@ -165,7 +165,7 @@ cron.schedule('* * * * *', () => {
   }).then(users => {
     addBirthdaysInFeed(users);
   }).catch(err => {
-    console.log(err);
+    //console.log(err);
   })
 
   //For Anniversories
@@ -190,13 +190,13 @@ cron.schedule('* * * * *', () => {
   }).then(users => {
     addAnniversoryInFeed(users);
   }).catch(err => {
-    console.log(err);
+    //console.log(err);
   })
 });
 
 function deleteAllFeed() {
   Feed.deleteMany({}).then(result => {
-    console.log(result);
+    //console.log(result);
   });
 }
 

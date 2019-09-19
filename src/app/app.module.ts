@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
+import { ChatModule } from './chat/chat.module';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { RolesModule } from './roles/roles.module';
     UsersModule,
     OrganizationsModule,
     AuthModule,
-    RolesModule
+    RolesModule,
+    ChatModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]

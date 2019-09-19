@@ -34,9 +34,7 @@ export class ListFeedComponent implements OnInit {
       if (response.user) {
         this.orgId = response.user.organization_id;
       }
-      console.log(this.orgId);
-
-      if (!this.orgId) {
+           if (!this.orgId) {
         return;
       }
 
