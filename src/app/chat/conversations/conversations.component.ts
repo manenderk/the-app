@@ -73,7 +73,7 @@ export class ConversationsComponent implements OnInit {
   deleteConversation(channelId) {
     this.channelService.deleteChannel(channelId).subscribe(response => {
       if (response.status === 'success') {
-        if(channelId === this.selectedChannel){
+        if (channelId === this.selectedChannel) {
           this.selectedChannel = null;
         }
         Swal.fire(
