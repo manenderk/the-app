@@ -23,6 +23,24 @@ router.get('', /* checkAuth, */ (req, res, next) => {
   })
 });
 
+//get users of organization
+router.get('/organization/:orgId', (req, res, next) => {
+  const orgId = req.params.orgId;
+  User.find({
+    organization_id: orgId
+  }).then(documents => {
+    res.status(201).json({
+      status: 'success',
+      users: documents
+    })
+  }).catch(err => {
+    res.status(501).json({
+      status: 'error',
+      message: err
+    })
+  });
+})
+
 //GET SINGLE USER
 router.get('/:id', (req, res, next) => {
   User.findOne({

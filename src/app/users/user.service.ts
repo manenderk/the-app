@@ -111,4 +111,31 @@ export class UserService {
       postData
     );
   }
+
+  getUsersOfOrganization(orgId: string) {
+    return this.httpClient
+      .get<{status: string, users: any}>(environment.serverAddress + 'api/user/organization/' + orgId)
+      .pipe(
+        map(response => {
+          return response.users.map(user => {
+            return {
+              id: user._id,
+              first_name: user.first_name,
+              middle_name: user.middle_name ? user.middle_name : '',
+              last_name: user.last_name,
+              email: user.email,
+              password: '',
+              employee_id: user.employee_id ? user.employee_id : '',
+              dob: user.dob,
+              doj: user.doj,
+              organization_id: user.organization_id ? user.organization_id : '',
+              role_id: user.role_id,
+              active: user.active,
+              created: user.created,
+              modified: user.modified
+            };
+          });
+        })
+      );
+  }
 }

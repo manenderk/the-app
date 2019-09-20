@@ -47,9 +47,18 @@ export class ChatChannelService {
       user_1: userId1,
       user_2: userId2
     };
-    return this.httpClient.post<{status: string, }>(
+    return this.httpClient.post<{status: string, channel: any}>(
       environment.serverAddress + 'api/chat-channel',
       postData
+    ).pipe(
+      map(response => {
+        return {
+          id: response.channel._id,
+          user_1: response.channel.user_1,
+          user_2: response.channel.user_2,
+          date: new Date(response.channel.date)
+        };
+      })
     );
   }
 

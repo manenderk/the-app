@@ -49,17 +49,30 @@ router.post('/', (req, res, next) => {
     user_2: req.body.user_2,
     date: new Date()
   });
-  chatChannel.save().then(doc => {
-    res.status(200).json({
-      status: 'success',
-      channel: doc
-    })
-  }).catch(err => {
-    res.status(501).json({
-      status: 'error',
-      message: err
-    })
-  })
+
+  getChannels(chatChannel.user_1, chatChannel.user_2).then(
+    channel => {
+      if(channel) {
+        res.status(200).json({
+          status: 'success',
+          channel: channel
+        });
+      }
+      else {
+        chatChannel.save().then(doc => {
+          res.status(200).json({
+            status: 'success',
+            channel: doc
+          })
+        }).catch(err => {
+          res.status(501).json({
+            status: 'error',
+            message: err
+          })
+        })
+      }
+    }
+  );
 });
 
 router.delete('/:channelId', (req, res, next) => {
@@ -75,5 +88,30 @@ router.delete('/:channelId', (req, res, next) => {
     })
   });
 })
+
+function getChannels(user1, user2) {
+  return new Promise((resolve, reject) => {
+    ChatChannel.findOne({
+      $or: [{
+          'user_1': user1,
+          'user_2': user2
+        },
+        {
+          'user_1': user2,
+          'user_2': user1
+        }
+      ]
+    }).then(doc => {
+      if (doc) {
+        return resolve(doc);
+      } else {
+        return resolve(false);
+      }
+    }).catch(error => {
+      console.log(error);
+    })
+  })
+
+}
 
 module.exports = router;

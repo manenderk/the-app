@@ -21,6 +21,10 @@ export class ConversationsComponent implements OnInit {
     id: string;
     name: string;
   };
+  contacts: {
+    user_id: string;
+    name: string;
+  }[];
 
   constructor(
     private channelService: ChatChannelService,
@@ -30,7 +34,7 @@ export class ConversationsComponent implements OnInit {
 
   ngOnInit() {
     this.userData = this.authService.getAuthUserDetails();
-    console.log(this.userData);
+    this.getContacts();
     this.loadRecentConversations();
   }
 
@@ -69,6 +73,9 @@ export class ConversationsComponent implements OnInit {
   deleteConversation(channelId) {
     this.channelService.deleteChannel(channelId).subscribe(response => {
       if (response.status === 'success') {
+        if(channelId === this.selectedChannel){
+          this.selectedChannel = null;
+        }
         Swal.fire(
           'Success',
           'Conversation Deleted',
@@ -81,5 +88,36 @@ export class ConversationsComponent implements OnInit {
 
   selectChannel(channelId) {
     this.selectedChannel = channelId;
+  }
+
+  getContacts() {
+    this.contacts = [];
+    this.userService.getUser(this.userData.id).subscribe(response => {
+      const orgId = response.user.organization_id;
+      if (!orgId) {
+        return;
+      }
+      this.userService.getUsersOfOrganization(orgId).subscribe(users => {
+        users = users.filter(user => {
+          return user.id !== this.userData.id;
+        });
+        users.forEach(user => {
+          const contact = {
+            user_id: user.id,
+            name: user.first_name + ' ' + user.last_name
+          };
+          this.contacts.push(contact);
+        });
+      });
+    });
+  }
+
+  startChannel(recipient) {
+    this.channelService.createChannel(this.userData.id, recipient).subscribe(response => {
+      if (response.id) {
+        this.selectedChannel = response.id;
+        this.loadRecentConversations();
+      }
+    });
   }
 }
