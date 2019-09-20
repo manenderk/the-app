@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-sm-4" id="conversation-list">
+    <mat-nav-list *ngIf="conversations">
+      <mat-list-item *ngFor="let conversation of conversations">
+         <a matLine (click)="selectChannel(conversation.channel_id)">
+           {{conversation.receipientName}}
+         </a>
+         <button mat-icon-button color="primary" (click)="deleteConversation(conversation.channel_id)">
+           <mat-icon>delete</mat-icon>
+         </button>
+      </mat-list-item>
+
+    </mat-nav-list>
+  </div>
+  <div class="col-sm-8">
+    <app-do-chat [channelId]="selectedChannel" *ngIf="selectedChannel;else startConversationMessage">
+    </app-do-chat>
+    <ng-template #startConversationMessage>
+      <h1>Click on a contact to start conversation.</h1>
+    </ng-template>
+  </div>
+</div>
+
+

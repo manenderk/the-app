@@ -3,7 +3,22 @@ const router = express.Router();
 
 const ChatChannel = require('../models/chatChannel.schema');
 
-router.get('/:userId', (req, res, next) => {
+router.get('/:channelId', (req, res, next) => {
+  const channelId = req.params.channelId;
+  ChatChannel.findById(channelId).then(channel => {
+    res.status(200).json({
+      status: 'success',
+      channel: channel
+    });
+  }).catch(error => {
+    res.status(500).json({
+      status: 'error',
+      message: error
+    })
+  })
+});
+
+router.get('/user/:userId', (req, res, next) => {
 
   const userId = req.params.userId;
 
@@ -18,7 +33,7 @@ router.get('/:userId', (req, res, next) => {
   }).then(channels => {
     res.status(200).json({
       status: 'success',
-      feeds: channels
+      channels: channels
     })
   }).catch(error => {
     res.status(500).json({

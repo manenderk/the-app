@@ -3,6 +3,10 @@
     <mat-icon>dashboard</mat-icon>
     Feeds
   </a>
+  <a mat-list-item [routerLink]="['/conversations']" routerLinkActive="router-link-active">
+    <mat-icon>chat</mat-icon>
+    Chat
+  </a>
   <a mat-list-item [routerLink]="['/organizations']" routerLinkActive="router-link-active">
     <mat-icon>apartment</mat-icon>
     Organizations
@@ -23,6 +27,7 @@
     <mat-icon>business</mat-icon>
     Organization Requests
   </a>
+
 </mat-nav-list>
 
 

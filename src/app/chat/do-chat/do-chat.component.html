@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-title *ngIf="recipientName">
+    {{recipientName}}
+  </mat-card-title>
+  <mat-card-content id="chat-container">
+
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-form-field>
+      <input matInput>
+      <button mat-icon-button matSuffix color="primary">
+        <mat-icon >send</mat-icon>
+      </button>
+
+    </mat-form-field>
+  </mat-card-footer>
+</mat-card>

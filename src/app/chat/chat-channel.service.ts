@@ -10,17 +10,32 @@ export class ChatChannelService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getChannels(userId: string) {
-    return this.httpClient.get<{status: string, feeds: any}>(
-      environment.serverAddress + 'api/chat-channel/' + userId
+  getChannel(channelId: string) {
+    return this.httpClient.get<{status: string, channel: any}>(
+      environment.serverAddress + 'api/chat-channel/' + channelId
     ).pipe(
       map(response => {
-        return response.feeds.map(feed => {
+        return {
+          id: response.channel._id,
+          user_1: response.channel.user_1,
+          user_2: response.channel.user_2,
+          date: response.channel.date
+        };
+      })
+    );
+  }
+
+  getUserChannels(userId: string) {
+    return this.httpClient.get<{status: string, channels: any}>(
+      environment.serverAddress + 'api/chat-channel/user/' + userId
+    ).pipe(
+      map(response => {
+        return response.channels.map(channel => {
           return {
-            id: feed._id,
-            user_1: feed.user_1,
-            user_2: feed.user_2,
-            date: new Date(feed.date)
+            id: channel._id,
+            user_1: channel.user_1,
+            user_2: channel.user_2,
+            date: new Date(channel.date)
           };
         });
       })
@@ -39,7 +54,7 @@ export class ChatChannelService {
   }
 
   deleteChannel(channelId: string) {
-    return this.httpClient.delete(
+    return this.httpClient.delete<{status: string, message: string}>(
       environment.serverAddress + 'api/chat-channel/' + channelId
     );
   }
