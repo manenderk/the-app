@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule, MatInput } from '@angular/material/input';
@@ -14,6 +15,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatTreeModule } from '@angular/material/tree';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
@@ -36,6 +38,7 @@ export const APP_DATE_FORMATS = {
     MatCheckboxModule,
     MatDatepickerModule,
     MatDividerModule,
+    MatExpansionModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
@@ -45,6 +48,7 @@ export const APP_DATE_FORMATS = {
     MatRadioModule,
     MatSelectModule,
     MatTableModule,
+    MatTreeModule,
     MatToolbarModule
   ],
   exports: [
@@ -53,6 +57,7 @@ export const APP_DATE_FORMATS = {
     MatCheckboxModule,
     MatDatepickerModule,
     MatDividerModule,
+    MatExpansionModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
@@ -61,6 +66,7 @@ export const APP_DATE_FORMATS = {
     MatRadioModule,
     MatSelectModule,
     MatTableModule,
+    MatTreeModule,
     MatToolbarModule
   ],
   providers: [

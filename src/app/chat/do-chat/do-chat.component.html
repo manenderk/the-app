@@ -5,29 +5,43 @@
   <mat-card-content>
 
     <div class="chat-container" #chatContainer>
-      <div *ngFor="let chat of chats; let i = index;">
+      <div *ngFor="let chat of chats; let i = index; let lastcall=last">
         <div class="row" class="date-divider">
 
         </div>
         <div class="row chat-item" *ngIf="chat.sender == recipientId">
           <div class="col-sm-2 chat-avatar">
-            <div>MK</div>
+            <div>{{recipientShortName}}</div>
           </div>
           <div class="col-sm-8 chat-text-block">
             <p class="chat-text text-to-left">{{chat.text}}</p>
-            <p class="chat-date text-to-left"><small>{{chat.date | date : 'h:m a'}}</small></p>
+            <p class="chat-date text-to-left">
+              <small>
+                {{chat.date | date : 'h:m a'}}
+                <button mat-icon-button class="small-chat-button">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+              </small>
+            </p>
           </div>
         </div>
         <div class="row chat-item" *ngIf="chat.sender == userData.id">
           <div class=" col-sm-8 offset-sm-2 chat-text-block">
             <p class="chat-text text-to-right">{{chat.text}}</p>
-            <p class="chat-date text-to-right"><small>{{chat.date | date : 'h:m a'}}</small></p>
+            <p class="chat-date text-to-right">
+              <small>
+                {{chat.date | date : 'h:m a'}}
+                <button mat-icon-button class="small-chat-button">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+              </small>
+            </p>
           </div>
           <div class="col-sm-2 chat-avatar">
-            <div>MK</div>
+            <div>{{senderShortName}}</div>
           </div>
-
         </div>
+        <span *ngIf="lastcall">{{scrollToBottom()}} </span>
       </div>
     </div>
 

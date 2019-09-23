@@ -5,6 +5,7 @@ import { ChatChannel } from '../chat-channel.model';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChatService } from '../chat.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-do-chat',
@@ -14,6 +15,8 @@ import { ChatService } from '../chat.service';
 export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
   recipientId: string;
   recipientName: string;
+  recipientShortName: string;
+  senderShortName: string;
   chats: any;
   userData: {
     id: string;
@@ -51,16 +54,16 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     await this.loadRecipientName();
     if (this.recipientId) {
       await this.loadChat();
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 500);
 
+      /* interval(1000).subscribe(() => {
+        this.getNewChats();
+      }); */
     }
+    this.recipientShortName = this.stipCapitalize(this.recipientName).toUpperCase();
+    this.senderShortName = this.stipCapitalize(this.userData.name).toUpperCase();
   }
 
-  ngAfterViewInit() {
-    // this.scrollToBottom();
-  }
+  ngAfterViewInit() {}
 
   loadChannel() {
     return new Promise((resolve, reject) => {
@@ -89,7 +92,6 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
       this.userService.getUser(this.recipientId).subscribe(
         response => {
           this.recipientName = response.user.first_name + ' ' + response.user.last_name;
-          console.log(this.recipientName);
           return resolve();
         }, error => {
           return reject(error);
@@ -104,12 +106,29 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
       this.chatService.getChats(this.channelId).subscribe(
         response => {
           this.chats = response;
+          console.log(this.chats);
           return resolve();
         }, error => {
           return reject(error);
         }
       );
     });
+  }
+
+  getNewChats() {
+    this.chatService.getChats(this.channelId).subscribe(
+      response => { // response = arrayOfNewChats
+        response.forEach(newChat => {
+          const test = this.chats.find(ob => ob.id === newChat.id);
+          if (test === null) {
+            this.chats.push(newChat);
+          }
+        });
+      },
+      error => {
+
+      }
+    );
   }
 
   sendChat() {
@@ -120,15 +139,17 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
       if (response) {
         this.chats.push(response.chat);
         this.chatFormGroup.reset();
-        this.scrollToBottom();
       }
     });
   }
-
-
 
   scrollToBottom() {
     this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
   }
 
+  stipCapitalize(name: string) {
+    const matches = name.match(/\b(\w)/g);
+    const acronym = matches.join('');
+    return acronym;
+  }
 }
