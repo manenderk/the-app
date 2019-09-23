@@ -17,7 +17,7 @@ export class ChatService {
       map(response => {
         return response.chats.map(chat => {
           return {
-            id: chat.id,
+            id: chat._id,
             sender: chat.sender,
             receiver: chat.receiver,
             text: chat.text,
@@ -35,7 +35,7 @@ export class ChatService {
       receiver,
       text
     };
-    return this.httpClient.post(
+    return this.httpClient.post<{status: string; chat: any}>(
       environment.serverAddress + 'api/chat',
       postData
     );

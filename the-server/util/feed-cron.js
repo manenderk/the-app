@@ -5,8 +5,6 @@ const now = new Date();
 var previousDate = new Date();
 previousDate.setDate(now.getDate() - 1);
 
-//deleteAllFeed();
-
 function isEventAdded(conditions) {
   return new Promise((resolve, reject) => {
     Feed.find(
@@ -193,12 +191,6 @@ cron.schedule('* * * * *', () => {
     //console.log(err);
   })
 });
-
-function deleteAllFeed() {
-  Feed.deleteMany({}).then(result => {
-    //console.log(result);
-  });
-}
 
 module.exports = cron;
 

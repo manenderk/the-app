@@ -13,6 +13,7 @@ const chatChannelRoute = require('./routes/chatChannel');
 const chatRoute = require('./routes/chat');
 
 const cron = require('./util/feed-cron');
+const clearData = require('./util/clear-data');
 
 const app = express();
 
