@@ -41,6 +41,29 @@ const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 const server = http.createServer(app);
+const io = require('socket.io')(server);
+
 server.on('error', onError);
 server.on('listening', onListening);
 server.listen(port);
+
+io.on('connection', function(socket) {
+  socket.on('join-socket', (data) => {
+    const userId = data.userId;
+    console.log('User joined channel');
+    socket.join(userId);
+  })
+
+  socket.on('leave-socket', (data) => {
+    const userId = data.userId;
+    console.log('User left channel');
+    socket.leaveAll();
+  })
+
+  socket.on('add-message', (data) => {
+    console.log(data);
+    const recipientId = data.recipientId;
+    io.to(recipientId).emit('new-message', data);
+  })
+});
+

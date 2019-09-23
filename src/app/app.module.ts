@@ -14,6 +14,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { ChatModule } from './chat/chat.module';
+import { SocketService } from './socket.service';
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import { ChatModule } from './chat/chat.module';
     RolesModule,
     ChatModule
   ],
-  providers: [AppService],
+  providers: [AppService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

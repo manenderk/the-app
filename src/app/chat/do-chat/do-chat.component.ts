@@ -6,6 +6,9 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChatService } from '../chat.service';
 import { interval } from 'rxjs';
+import { SocketService } from 'src/app/socket.service';
+
+
 
 @Component({
   selector: 'app-do-chat',
@@ -36,12 +39,20 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     private userService: UserService,
     private authService: AuthService,
     private channelService: ChatChannelService,
-    private chatService: ChatService
-  ) {}
+    private chatService: ChatService,
+    private socketService: SocketService
+  ) {
+    this.userData = this.authService.getAuthUserDetails();
+    this.socketService.joinSocket(this.userData.id);
+    this.socketService.receiveNewMessageEvent().subscribe(data => {
+      console.log(data);
+      if (data.channelId === this.channelId) {
+        this.getNewChats();
+      }
+    });
+  }
 
   ngOnInit() {
-    this.userData = this.authService.getAuthUserDetails();
-
     this.chatFormGroup = new FormGroup({
       chatText: new FormControl()
     });
@@ -54,13 +65,11 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     await this.loadRecipientName();
     if (this.recipientId) {
       await this.loadChat();
-
-      /* interval(1000).subscribe(() => {
-        this.getNewChats();
-      }); */
     }
     this.recipientShortName = this.stipCapitalize(this.recipientName).toUpperCase();
     this.senderShortName = this.stipCapitalize(this.userData.name).toUpperCase();
+
+
   }
 
   ngAfterViewInit() {}
@@ -106,7 +115,6 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
       this.chatService.getChats(this.channelId).subscribe(
         response => {
           this.chats = response;
-          console.log(this.chats);
           return resolve();
         }, error => {
           return reject(error);
@@ -120,7 +128,8 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
       response => { // response = arrayOfNewChats
         response.forEach(newChat => {
           const test = this.chats.find(ob => ob.id === newChat.id);
-          if (test === null) {
+          if(typeof test === 'undefined') {
+            console.log(newChat);
             this.chats.push(newChat);
           }
         });
@@ -139,6 +148,7 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
       if (response) {
         this.chats.push(response.chat);
         this.chatFormGroup.reset();
+        this.socketService.sendNewMessageEvent(this.recipientId, this.channelId, response.chat._id);
       }
     });
   }
@@ -152,4 +162,5 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     const acronym = matches.join('');
     return acronym;
   }
+
 }

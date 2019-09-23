@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { User } from '../user.model';
 import Swal from 'sweetalert2';
+import { SocketService } from 'src/app/socket.service';
 
 @Component({
   selector: 'app-login-user',
@@ -18,6 +19,7 @@ export class LoginUserComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private appService: AppService,
+    private socketService: SocketService,
     private router: Router
   ) {}
 
@@ -51,7 +53,6 @@ export class LoginUserComponent implements OnInit {
             this.authService.setAuthData(response.token, response.expiresIn, response.userName, response.userId);
             this.userService.getUser(response.userId).subscribe(userResponse => {
               if (userResponse.user.organization_id) {
-                console.log('You are associated with an organization');
                 this.router.navigate(['/feeds']);
               } else {
                 console.log('You are not associated with any organization');
