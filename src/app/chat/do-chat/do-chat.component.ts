@@ -43,9 +43,7 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     private socketService: SocketService
   ) {
     this.userData = this.authService.getAuthUserDetails();
-    this.socketService.joinSocket(this.userData.id);
     this.socketService.receiveNewMessageEvent().subscribe(data => {
-      console.log(data);
       if (data.channelId === this.channelId) {
         this.getNewChats();
       }
@@ -59,6 +57,7 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
+    this.senderShortName = this.stipCapitalize(this.userData.name).toUpperCase();
     const channelId: SimpleChange = changes.channelId;
     this.channelId = channelId.currentValue;
     await this.loadChannel();
@@ -67,9 +66,6 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
       await this.loadChat();
     }
     this.recipientShortName = this.stipCapitalize(this.recipientName).toUpperCase();
-    this.senderShortName = this.stipCapitalize(this.userData.name).toUpperCase();
-
-
   }
 
   ngAfterViewInit() {}
@@ -127,8 +123,11 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     this.chatService.getChats(this.channelId).subscribe(
       response => { // response = arrayOfNewChats
         response.forEach(newChat => {
-          const test = this.chats.find(ob => ob.id === newChat.id);
-          if(typeof test === 'undefined') {
+          const chatExists = this.chats.find(ob => ob.id === newChat.id);
+          if (typeof chatExists === 'undefined') {
+            console.log('Old Chats');
+            console.log(this.chats);
+            console.log('New Chats');
             console.log(newChat);
             this.chats.push(newChat);
           }
@@ -146,9 +145,14 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     }
     this.chatService.addChat(this.channelId, this.userData.id, this.recipientId, this.chatFormGroup.value.chatText).subscribe(response => {
       if (response) {
+        this.socketService.sendNewMessageEvent(
+          this.recipientId,
+          this.channelId,
+          response.chat.id
+        );
         this.chats.push(response.chat);
+        console.log(this.chats);
         this.chatFormGroup.reset();
-        this.socketService.sendNewMessageEvent(this.recipientId, this.channelId, response.chat._id);
       }
     });
   }

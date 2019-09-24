@@ -38,6 +38,20 @@ export class ChatService {
     return this.httpClient.post<{status: string; chat: any}>(
       environment.serverAddress + 'api/chat',
       postData
+    ).pipe(
+      map(response => {
+        return {
+          status: response.status,
+          chat: {
+            id: response.chat._id,
+            channel_id: response.chat.channel_id,
+            sender: response.chat.sender,
+            receiver: response.chat.receiver,
+            text: response.chat.text,
+            date: response.chat.date
+          }
+        };
+      })
     );
   }
 
