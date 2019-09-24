@@ -10,9 +10,9 @@ export class ChatService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getChats(channelId) {
+  getChats(channelId, pageSize, currentPage) {
     return this.httpClient.get<{status: string, chats: any}>(
-      environment.serverAddress + 'api/chat/' + channelId
+      environment.serverAddress + 'api/chat/' + channelId + '/?pageSize=' + pageSize + '&currentPage=' + currentPage
     ).pipe(
       map(response => {
         return response.chats.map(chat => {

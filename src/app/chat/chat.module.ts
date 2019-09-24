@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGaurd } from '../auth/auth.gaurd';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DoChatComponent } from './do-chat/do-chat.component';
 
 const routes: Routes = [
@@ -19,7 +20,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ConversationsComponent, DoChatComponent],
-  imports: [CommonModule, ReactiveFormsModule, MaterialModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, ReactiveFormsModule, MaterialModule, InfiniteScrollModule, RouterModule.forChild(routes)],
   providers: [ChatService, ChatChannelService]
 })
 export class ChatModule {}

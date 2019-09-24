@@ -6,9 +6,25 @@ const Chat = require('../models/chat.schema');
 
 router.get('/:channelId', (req, res, next) => {
   const channelId = req.params.channelId;
-  Chat.find({
+  const pageSize = +req.query.pageSize;
+  const currentPage = +req.query.currentPage;
+
+  console.log(pageSize, currentPage);
+  const chatQuery = Chat.find({
     channel_id: channelId
-  }).then(chats => {
+  });
+
+
+
+  if(pageSize && currentPage) {
+    chatQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+  }
+
+  chatQuery.sort({
+    date: -1
+  });
+
+  chatQuery.then(chats => {
     res.status(200).json({
       status: 'success',
       chats: chats

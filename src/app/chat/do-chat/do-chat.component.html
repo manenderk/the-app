@@ -16,7 +16,7 @@
             <p class="chat-text text-to-left">{{chat.text}}</p>
             <p class="chat-date text-to-left">
               <small>
-                {{chat.date | date : 'h:m a'}}
+                {{chat.date | date : 'h:mm a'}}
                 <button mat-icon-button class="small-chat-button" [matMenuTriggerFor]="chatMenu">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
@@ -32,7 +32,7 @@
             <p class="chat-text text-to-right">{{chat.text}}</p>
             <p class="chat-date text-to-right">
               <small>
-                {{chat.date | date : 'h:m a'}}
+                {{chat.date | date : 'h:mm a'}}
                 <button mat-icon-button class="small-chat-button" [matMenuTriggerFor]="chatMenu">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
