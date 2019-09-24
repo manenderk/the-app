@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChatService } from '../chat.service';
 import { interval } from 'rxjs';
 import { SocketService } from 'src/app/socket.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -167,4 +168,18 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     return acronym;
   }
 
+  deleteChat(chatId: string) {
+    this.chatService.deleteChat(chatId).subscribe(response => {
+      if (response.status === 'success') {
+        this.chats = this.chats.filter(chat => {
+          return chat.id !== chatId;
+        });
+        Swal.fire(
+          'Success',
+          'Chat is deleted',
+          'success'
+        );
+      }
+    });
+  }
 }

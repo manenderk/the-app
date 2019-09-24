@@ -44,6 +44,7 @@ router.post('/', (req, res, next) => {
 })
 
 router.delete('/:chatId', (req, res, next) => {
+  const chatId = req.params.chatId;
   Chat.findByIdAndDelete(chatId).then(doc => {
     res.status(200).json({
       status: 'success',

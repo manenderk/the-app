@@ -3,7 +3,6 @@
     {{recipientName}}
   </mat-card-title>
   <mat-card-content>
-
     <div class="chat-container" #chatContainer>
       <div *ngFor="let chat of chats; let i = index; let lastcall=last">
         <div class="row" class="date-divider">
@@ -18,9 +17,12 @@
             <p class="chat-date text-to-left">
               <small>
                 {{chat.date | date : 'h:m a'}}
-                <button mat-icon-button class="small-chat-button">
+                <button mat-icon-button class="small-chat-button" [matMenuTriggerFor]="chatMenu">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
+                <mat-menu #chatMenu="matMenu">
+                  <button mat-menu-item (onclick)="deleteChat(chat.id)">Delete</button>
+                </mat-menu>
               </small>
             </p>
           </div>
@@ -31,9 +33,12 @@
             <p class="chat-date text-to-right">
               <small>
                 {{chat.date | date : 'h:m a'}}
-                <button mat-icon-button class="small-chat-button">
+                <button mat-icon-button class="small-chat-button" [matMenuTriggerFor]="chatMenu">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
+                <mat-menu #chatMenu="matMenu">
+                  <button mat-menu-item color="warn" (click)="deleteChat(chat.id)">Delete</button>
+                </mat-menu>
               </small>
             </p>
           </div>

@@ -55,8 +55,8 @@ export class ChatService {
     );
   }
 
-  deleteChat(chatId) {
-    return this.httpClient.delete(
+  deleteChat(chatId: string) {
+    return this.httpClient.delete<{status: string, message: string}>(
       environment.serverAddress + 'api/chat/' + chatId
     );
   }
