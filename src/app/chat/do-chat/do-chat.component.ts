@@ -1,4 +1,15 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange, AfterViewInit, ElementRef, ViewChild} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  SimpleChange,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
+  OnDestroy
+} from '@angular/core';
 import { UserService } from 'src/app/users/user.service';
 import { ChatChannelService } from '../chat-channel.service';
 import { ChatChannel } from '../chat-channel.model';
@@ -16,8 +27,7 @@ import { Chat } from '../chat.model';
   templateUrl: './do-chat.component.html',
   styleUrls: ['./do-chat.component.css']
 })
-
-export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
+export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   recipientId: string;
   recipientName: string;
   recipientShortName: string;
@@ -32,11 +42,15 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
   chatText: string;
   chatFormGroup: FormGroup;
 
-  maxChats: number;
+  isOldChat = false;
+  isNewChat = false;
+  isMaxChatsReached = false;
+  private chatContainerHeight: number;
+  private maxChats: number;
   private pageSize = 10;
   private currentPage = 1;
 
-  @ViewChild('chatContainer', {static: false}) chatContainer: ElementRef;
+  @ViewChild('chatContainer', { static: false }) chatContainer: ElementRef;
   @Input()
   channelId: string;
 
@@ -45,7 +59,7 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
     private authService: AuthService,
     private channelService: ChatChannelService,
     private chatService: ChatService,
-    private socketService: SocketService,
+    private socketService: SocketService
   ) {
     this.userData = this.authService.getAuthUserDetails();
     this.socketService.receiveNewMessageEvent().subscribe(data => {
@@ -62,19 +76,50 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    this.senderShortName = this.stipCapitalize(this.userData.name).toUpperCase();
+    this.currentPage = 1;
+    this.maxChats = 0;
+    this.isMaxChatsReached = false;
+
+    this.chats = [];
+
+    this.senderShortName = this.stipCapitalize(
+      this.userData.name
+    ).toUpperCase();
+
     const channelId: SimpleChange = changes.channelId;
     this.channelId = channelId.currentValue;
+
+    this.chatService.getChatCount(this.channelId).subscribe(response => {
+      if (response.status === 'success') {
+        this.maxChats = response.count;
+      }
+    });
+
     await this.loadChannel();
+
     await this.loadRecipientName();
     if (this.recipientId) {
-      await this.loadChat();
+      await this.getNewChats();
     }
-    this.recipientShortName = this.stipCapitalize(this.recipientName).toUpperCase();
+    this.recipientShortName = this.stipCapitalize(
+      this.recipientName
+    ).toUpperCase();
   }
 
   ngAfterViewInit() {
+    this.chatContainer.nativeElement.addEventListener(
+      'scroll',
+      () => {
+        if (this.chatContainer.nativeElement.scrollTop < 1) {
+          this.getOldChats();
+        }
+      },
+      true
+    );
+  }
 
+  ngOnDestroy() {
+    this.chatContainer.nativeElement.removeEventListener('scroll', () => {}, true);
   }
 
   loadChannel() {
@@ -83,7 +128,8 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
         channel => {
           this.channel = channel;
           resolve();
-        }, error => {
+        },
+        error => {
           reject(error);
         }
       );
@@ -103,24 +149,11 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
 
       this.userService.getUser(this.recipientId).subscribe(
         response => {
-          this.recipientName = response.user.first_name + ' ' + response.user.last_name;
+          this.recipientName =
+            response.user.first_name + ' ' + response.user.last_name;
           return resolve();
-        }, error => {
-          return reject(error);
-        }
-      );
-    });
-  }
-
-  loadChat() {
-    return new Promise((resolve, reject) => {
-      this.chats = [];
-      this.chatService.getChats(this.channelId, this.pageSize, this.currentPage).subscribe(
-        response => {
-          this.chats = response;
-          this.chats = this.sortChats(this.chats);
-          return resolve();
-        }, error => {
+        },
+        error => {
           return reject(error);
         }
       );
@@ -128,41 +161,88 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   getNewChats() {
-    this.chatService.getChats(this.channelId, this.pageSize, this.currentPage).subscribe(
-      response => { // response = arrayOfNewChats
-        response = this.sortChats(response);
-        response.forEach(newChat => {
-          const chatExists = this.chats.find(ob => ob.id === newChat.id);
-          if (typeof chatExists === 'undefined') {
-            this.chats.push(newChat);
-          }
-        });
-      },
-      error => {
+    this.chatService
+      .getChats(this.channelId, this.pageSize, this.currentPage)
+      .subscribe(
+        response => {
+          // response = arrayOfNewChats
+          response = this.sortChats(response);
+          response.forEach(newChat => {
+            const chatExists = this.chats.find(ob => ob.id === newChat.id);
+            if (typeof chatExists === 'undefined') {
+              this.chats.push(newChat);
+              this.isNewChat = true;
+            }
+          });
+        },
+        error => {}
+      );
+  }
 
-      }
-    );
+  getOldChats() {
+    if (!this.isMaxChatsReached) {
+      this.currentPage++;
+    } else {
+      return;
+    }
+
+    this.chatContainerHeight = this.chatContainer.nativeElement.scrollHeight;
+
+    this.chatService
+      .getChats(this.channelId, this.pageSize, this.currentPage)
+      .subscribe(
+        response => {
+          // response = arrayOfNewChats
+          response = this.sortChats(response);
+          response.forEach(newChat => {
+            const chatExists = this.chats.find(ob => ob.id === newChat.id);
+            if (typeof chatExists === 'undefined') {
+              this.chats.push(newChat);
+              this.chats = this.sortChats(this.chats);
+              this.isOldChat = true;
+            }
+          });
+        },
+        error => {}
+      );
+    if (this.currentPage * this.pageSize >= this.maxChats) {
+      this.isMaxChatsReached = true;
+    }
   }
 
   sendChat() {
     if (!this.chatFormGroup.value.chatText) {
       return;
     }
-    this.chatService.addChat(this.channelId, this.userData.id, this.recipientId, this.chatFormGroup.value.chatText).subscribe(response => {
-      if (response) {
-        this.socketService.sendNewMessageEvent(
-          this.recipientId,
-          this.channelId,
-          response.chat.id
-        );
-        this.chats.push(response.chat);
-        this.chatFormGroup.reset();
-      }
-    });
+    this.chatService
+      .addChat(
+        this.channelId,
+        this.userData.id,
+        this.recipientId,
+        this.chatFormGroup.value.chatText
+      )
+      .subscribe(response => {
+        if (response) {
+          this.socketService.sendNewMessageEvent(
+            this.recipientId,
+            this.channelId,
+            response.chat.id
+          );
+          this.isNewChat = true;
+          this.chats.push(response.chat);
+          this.chatFormGroup.reset();
+        }
+      });
   }
 
   scrollToBottom() {
-    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    if (this.isNewChat) {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+      this.isNewChat = false;
+    } else if (this.isOldChat) {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight - this.chatContainerHeight;
+      this.isOldChat = false;
+    }
   }
 
   stipCapitalize(name: string) {
@@ -177,11 +257,7 @@ export class DoChatComponent implements OnInit, OnChanges, AfterViewInit {
         this.chats = this.chats.filter(chat => {
           return chat.id !== chatId;
         });
-        Swal.fire(
-          'Success',
-          'Chat is deleted',
-          'success'
-        );
+        Swal.fire('Success', 'Chat is deleted', 'success');
       }
     });
   }

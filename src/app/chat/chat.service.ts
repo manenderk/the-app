@@ -28,6 +28,12 @@ export class ChatService {
     );
   }
 
+  getChatCount(channelId: string) {
+    return this.httpClient.get<{status: string, count: number}>(
+      environment.serverAddress + 'api/chat/chat-count/' + channelId
+    );
+  }
+
   addChat(channelId, sender, receiver, text) {
     const postData = {
       channel_id: channelId,

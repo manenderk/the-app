@@ -4,17 +4,31 @@ const router = express.Router();
 const Chat = require('../models/chat.schema');
 
 
+router.get('/chat-count/:channelId', (req, res, next) => {
+  const channelId = req.params.channelId;
+  Chat.find({
+    channel_id: channelId
+  }).then(chats => {
+    res.status(200).json({
+      status: 'success',
+      count: chats.length
+    })
+  }).catch(error => {
+    res.status(500).json({
+      status: 'error',
+      message: error
+    })
+  });
+})
+
 router.get('/:channelId', (req, res, next) => {
   const channelId = req.params.channelId;
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.currentPage;
 
-  console.log(pageSize, currentPage);
   const chatQuery = Chat.find({
     channel_id: channelId
   });
-
-
 
   if(pageSize && currentPage) {
     chatQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);

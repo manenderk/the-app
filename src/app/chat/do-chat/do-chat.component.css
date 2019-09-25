@@ -37,3 +37,10 @@
   width: 24px;
   line-height: 24px;
 }
+
+
+.maxChatReached {
+  margin: 1rem;
+  text-align: center;
+  font-weight: bold;
+}

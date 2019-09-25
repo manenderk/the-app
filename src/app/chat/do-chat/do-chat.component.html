@@ -4,7 +4,10 @@
   </mat-card-title>
   <mat-card-content>
     <div class="chat-container" #chatContainer>
-      <div *ngFor="let chat of chats; let i = index; let lastcall=last">
+      <div *ngIf="isMaxChatsReached">
+        <p class="maxChatReached">You have reached to the end of your conversation</p>
+      </div>
+      <div *ngFor="let chat of chats; let lastcall = last;" >
         <div class="row" class="date-divider">
 
         </div>
@@ -46,14 +49,17 @@
             <div>{{senderShortName}}</div>
           </div>
         </div>
-        <span *ngIf="lastcall">{{scrollToBottom()}} </span>
+        <div *ngIf="lastcall">
+          {{scrollToBottom()}}
+        </div>
       </div>
+
     </div>
 
     <div class="chat-input">
       <form [formGroup]="chatFormGroup" (submit)="sendChat()">
         <mat-form-field>
-          <input matInput placeholder="Type a message here..." formControlName="chatText">
+          <input matInput placeholder="Type a message here..." formControlName="chatText" autocomplete="off" autofocus="true">
           <button mat-icon-button matSuffix color="primary" type="submit" (keyup.enter)="sendChat()">
             <mat-icon>send</mat-icon>
           </button>
