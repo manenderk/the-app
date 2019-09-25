@@ -261,7 +261,6 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
   }
 
   deleteChat(chatId: string) {
-    console.log(chatId);
     this.chatService.deleteChat(chatId).subscribe(response => {
       if (response.status === 'success') {
         this.chats = this.chats.filter(chat => {

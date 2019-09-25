@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import * as CryptoJS from 'crypto-js';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,9 @@ export class ChatService {
             id: chat._id,
             sender: chat.sender,
             receiver: chat.receiver,
-            text: chat.text,
+            text: CryptoJS.AES.decrypt(chat.text, channelId).toString(
+              CryptoJS.enc.Utf8
+            ),
             date: new Date(chat.date)
           };
         });
@@ -35,6 +39,7 @@ export class ChatService {
   }
 
   addChat(channelId, sender, receiver, text) {
+    text = CryptoJS.AES.encrypt(text.trim(), channelId.trim()).toString();
     const postData = {
       channel_id: channelId,
       sender,
@@ -46,6 +51,11 @@ export class ChatService {
       postData
     ).pipe(
       map(response => {
+        console.log(
+          CryptoJS.AES.decrypt(response.chat.text, channelId).toString(
+            CryptoJS.enc.Utf8
+          )
+        );
         return {
           status: response.status,
           chat: {
@@ -53,8 +63,8 @@ export class ChatService {
             channel_id: response.chat.channel_id,
             sender: response.chat.sender,
             receiver: response.chat.receiver,
-            text: response.chat.text,
-            date: response.chat.date
+            text: CryptoJS.AES.decrypt(response.chat.text, channelId).toString(CryptoJS.enc.Utf8),
+            date: new Date(response.chat.date)
           }
         };
       })
