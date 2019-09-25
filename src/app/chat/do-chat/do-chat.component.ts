@@ -32,6 +32,7 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
   recipientName: string;
   recipientShortName: string;
   senderShortName: string;
+  dateDividers: string[];
   chats: any;
   userData: {
     id: string;
@@ -80,6 +81,7 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
     this.maxChats = 0;
     this.isMaxChatsReached = false;
 
+    this.dateDividers = [];
     this.chats = [];
 
     this.senderShortName = this.stipCapitalize(
@@ -92,6 +94,7 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
     this.chatService.getChatCount(this.channelId).subscribe(response => {
       if (response.status === 'success') {
         this.maxChats = response.count;
+        this.isMaxChatsReached = false;
       }
     });
 
@@ -170,6 +173,9 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
           response.forEach(newChat => {
             const chatExists = this.chats.find(ob => ob.id === newChat.id);
             if (typeof chatExists === 'undefined') {
+              if (this.chats.length !== 0 && this.isDateSeperated(this.chats[this.chats.length - 1].date, newChat.date)) {
+                this.dateDividers.push(newChat.id);
+              }
               this.chats.push(newChat);
               this.isNewChat = true;
             }
@@ -197,6 +203,9 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
           response.forEach(newChat => {
             const chatExists = this.chats.find(ob => ob.id === newChat.id);
             if (typeof chatExists === 'undefined') {
+              if (this.chats.length !== 0 && this.isDateSeperated(newChat.date, this.chats[0].date)) {
+                this.dateDividers.push(this.chats[0].id);
+              }
               this.chats.push(newChat);
               this.chats = this.sortChats(this.chats);
               this.isOldChat = true;
@@ -252,6 +261,7 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
   }
 
   deleteChat(chatId: string) {
+    console.log(chatId);
     this.chatService.deleteChat(chatId).subscribe(response => {
       if (response.status === 'success') {
         this.chats = this.chats.filter(chat => {
@@ -271,5 +281,13 @@ export class DoChatComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
         : 0;
     });
     return newChats;
+  }
+
+  isDateSeperated(date1: Date, date2: Date) {
+    if (date1.getDay() === date2.getDay()) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

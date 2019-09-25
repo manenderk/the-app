@@ -5,11 +5,16 @@
   <mat-card-content>
     <div class="chat-container" #chatContainer>
       <div *ngIf="isMaxChatsReached">
-        <p class="maxChatReached">You have reached to the end of your conversation</p>
+        <p class="maxChatReached">You have reached to the begining of your conversation</p>
       </div>
-      <div *ngFor="let chat of chats; let lastcall = last;" >
-        <div class="row" class="date-divider">
-
+      <div *ngFor="let chat of chats; let lastcall = last; let i = index" class="container-fluid" >
+        <div class="row" *ngIf="dateDividers.includes(chat.id) || i === 0">
+          <div class="col-sm-12">
+            <p class="date-divider">
+              {{chats[i].date | date : 'd MMM, yyyy'}}
+            </p>
+            <mat-divider></mat-divider>
+          </div>
         </div>
         <div class="row chat-item" *ngIf="chat.sender == recipientId">
           <div class="col-sm-2 chat-avatar">
@@ -19,12 +24,12 @@
             <p class="chat-text text-to-left">{{chat.text}}</p>
             <p class="chat-date text-to-left">
               <small>
-                {{chat.date | date : 'h:mm a'}}
+                {{chat.date | date : 'd h:mm a'}}
                 <button mat-icon-button class="small-chat-button" [matMenuTriggerFor]="chatMenu">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
                 <mat-menu #chatMenu="matMenu">
-                  <button mat-menu-item (onclick)="deleteChat(chat.id)">Delete</button>
+                  <button mat-menu-item (click)="deleteChat(chat.id)">Delete</button>
                 </mat-menu>
               </small>
             </p>
@@ -35,7 +40,7 @@
             <p class="chat-text text-to-right">{{chat.text}}</p>
             <p class="chat-date text-to-right">
               <small>
-                {{chat.date | date : 'h:mm a'}}
+                {{chat.date | date : 'd h:mm a'}}
                 <button mat-icon-button class="small-chat-button" [matMenuTriggerFor]="chatMenu">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
@@ -49,6 +54,7 @@
             <div>{{senderShortName}}</div>
           </div>
         </div>
+
         <div *ngIf="lastcall">
           {{scrollToBottom()}}
         </div>

@@ -39,7 +39,7 @@
 }
 
 
-.maxChatReached {
+.maxChatReached, .date-divider {
   margin: 1rem;
   text-align: center;
   font-weight: bold;
