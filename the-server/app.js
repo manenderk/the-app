@@ -11,6 +11,7 @@ const organizationRequestRoutes = require('./routes/organizationRequest');
 const feedsRoute = require('./routes/feeds');
 const chatChannelRoute = require('./routes/chatChannel');
 const chatRoute = require('./routes/chat');
+const eventRoute = require('./routes/events');
 
 const cron = require('./util/feed-cron');
 const clearData = require('./util/clear-data');
@@ -47,4 +48,6 @@ app.use('/api/organization-request', organizationRequestRoutes);
 app.use('/api/feeds', feedsRoute);
 app.use('/api/chat-channel', chatChannelRoute);
 app.use('/api/chat', chatRoute);
+app.use('/api/events', eventRoute);
+
 module.exports = app;
